@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 
 
-def get_image_dataloader(image_dir: str, image_size: int = 64, batch_size: int = 32):
+def get_image_dataloader(image_dir: str, image_size: int = 64, batch_size: int = 32, shuffle: bool = False):
     transform = transforms.Compose([
         transforms.Resize((image_size, image_size)),
         transforms.Lambda(lambda img: img.convert("RGB")),
@@ -13,7 +13,7 @@ def get_image_dataloader(image_dir: str, image_size: int = 64, batch_size: int =
     ])
 
     dataset = datasets.ImageFolder(root=image_dir, transform=transform)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
     return dataloader
 
 

@@ -1,0 +1,8 @@
+site_name: ai-detector-model
+site_author: AIDetectsAI
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Experiments:
+      - Metryki: experiments/metrics.md

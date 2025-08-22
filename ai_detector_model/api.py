@@ -1,18 +1,17 @@
 from fastapi import FastAPI, File, UploadFile, Form
 from pydantic import BaseModel
-
+from model_handler import ModelController
 app = FastAPI()
 
-class ModelController():
+class APIController():
     def __init__(self):
-        # TODO initialize model
-        print("Initializing...")
+        self.model_controller = ModelController("models/onnx/baseline_model.onnx")
 
-    async def get_image_certainty(file: File, type: str) -> float:
-        # TODO call model for certainty
-        return 0.69
+    async def get_image_certainty(self, file: File, type: str) -> float:
+        preprocessed_image = 1 # convert to proper format
+        return self.model_controller.run_onnx_model(preprocessed_image)
 
-model_handler = ModelController()
+model_handler = APIController()
 
 class CertaintyDTO(BaseModel):
     certainty: float

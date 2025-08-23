@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, Form
 from pydantic import BaseModel
-from model_handler import ModelController
+from .model_handler import ModelController
 app = FastAPI()
 
 class APIController():

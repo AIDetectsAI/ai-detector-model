@@ -1,6 +1,6 @@
 import torch
 import onnxruntime
-from baseline_model_class import CustomBinaryCNN
+from .baseline_model_class import CustomBinaryCNN
 
 def convert_pth_to_onnx(model_class, pth_model_path: str, onnx_save_path: str):
     model = model_class()

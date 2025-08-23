@@ -24,4 +24,6 @@ class ModelController():
         return onnxruntime_output
 
 if __name__ == "__main__":
-    convert_pth_to_onnx(CustomBinaryCNN, "models/pytorch/baseline_model.pth", "models/onnx/baseline_model.onnx")
+    pth_path = "models/pytorch/baseline_model.pth"
+    onnx_path = "models/onnx/baseline_model.onnx"
+    convert_pth_to_onnx(CustomBinaryCNN, pth_path, onnx_path)

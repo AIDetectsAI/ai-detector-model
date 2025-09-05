@@ -1,9 +1,10 @@
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI, File, Form, UploadFile
 from pydantic import BaseModel
 
 app = FastAPI()
 
-class ModelController():
+
+class ModelController:
     def __init__(self):
         # TODO initialize model
         print("Initializing...")
@@ -12,10 +13,13 @@ class ModelController():
         # TODO call model for certainty
         return 0.69
 
+
 model_handler = ModelController()
+
 
 class CertaintyDTO(BaseModel):
     certainty: float
+
 
 @app.post("/verify/image")
 async def verify_image(file: UploadFile = File(...), type: str = Form(...)):

@@ -8,4 +8,5 @@ pytest
 python-dotenv
 tqdm
 typer
+hydra-core
 -e .

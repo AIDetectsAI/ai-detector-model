@@ -3,7 +3,7 @@
 #################################################################################
 
 PROJECT_NAME = ai-detector-model
-PYTHON_VERSION = 3.10
+PYTHON_VERSION = 3.11.9
 PYTHON_INTERPRETER = python
 
 #################################################################################
@@ -16,7 +16,6 @@ PYTHON_INTERPRETER = python
 requirements:
 	$(PYTHON_INTERPRETER) -m pip install -U pip
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-	
 
 
 

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, Form
 from pydantic import BaseModel
-from .model_handler import ModelController
+from ..ai_detector_model.model_converter import ModelController
 import asyncio
 
 app = FastAPI()
@@ -13,7 +13,7 @@ class APIController():
         preprocessed_image = 1 # convert to proper format
         result = await asyncio.to_thread(self.model_controller.run_onnx_model, preprocessed_image)
         return result
-    
+   
 model_handler = APIController()
 
 class CertaintyDTO(BaseModel):

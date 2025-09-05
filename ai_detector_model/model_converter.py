@@ -1,7 +1,6 @@
 import torch
 import onnxruntime
-from .baseline_model_class import CustomBinaryCNN
-
+module
 def convert_pth_to_onnx(model_class, pth_model_path: str, onnx_save_path: str):
     model = model_class()
     model.load_state_dict(torch.load(pth_model_path, map_location=torch.device('cpu')))
@@ -26,4 +25,5 @@ class ModelController():
 if __name__ == "__main__":
     pth_path = "models/pytorch/baseline_model.pth"
     onnx_path = "models/onnx/baseline_model.onnx"
-    convert_pth_to_onnx(CustomBinaryCNN, pth_path, onnx_path)
+    classa = CustomBinaryCNN
+    convert_pth_to_onnx(model_class=classa, pth_model_path=pth_path, onnx_save_path=onnx_path)

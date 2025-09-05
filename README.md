@@ -6,7 +6,11 @@
 
 A machine learning model designed to classify images as either AI-generated or real, using visual features and patterns to distinguish synthetic content from authentic photographs.
 
-## Project Organization
+## ⚙️ Project Setup
+
+> 🚧 Worki in progress ... 
+
+## 🌳 Project Organization
 
 ```
 ├── LICENSE            <- Open-source license if one is chosen
@@ -59,3 +63,6 @@ A machine learning model designed to classify images as either AI-generated or r
 
 --------
 
+## 🗃️ Documentation
+
+Project documentation is avaliable at adress: https://aidetectsai.github.io/ai-detector-model

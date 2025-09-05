@@ -1,6 +1,25 @@
 site_name: ai-detector-model
 site_author: AIDetectsAI
 
+theme:
+  name: material
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      linenums: false
+  - pymdownx.superfences
+  - fenced_code
+  - pymdownx.arithmatex:
+      generic: true  
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
 nav:
   - Home: index.md
   - Getting Started: getting-started.md

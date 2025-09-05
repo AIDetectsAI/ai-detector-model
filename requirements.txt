@@ -1,3 +1,4 @@
+# TOOLS
 black
 flake8
 isort
@@ -6,7 +7,17 @@ mkdocs
 pip
 pytest
 python-dotenv
-tqdm
-typer
 hydra-core
+
+# PROJECT
 -e .
+
+# API
+fastapi
+pydantic
+
+# CLI
+typer
+tqdm
+
+# MODELS

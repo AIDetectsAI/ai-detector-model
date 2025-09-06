@@ -3,6 +3,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 from loguru import logger
 
+from torch import device, cuda
+
 # Load environment variables from .env file if it exists
 load_dotenv()
 
@@ -22,6 +24,10 @@ PYTORCH_MODELS_DIR = MODELS_DIR / "pytorch"
 
 REPORTS_DIR = PROJ_ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
+
+DEVICE = device("cuda" if cuda.is_available() else "cpu")
+
+# NOTE: Loguru file logging
 
 # If tqdm is installed, configure loguru with tqdm.write
 # https://github.com/Delgan/loguru/issues/135

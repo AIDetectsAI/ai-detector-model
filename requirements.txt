@@ -1,16 +1,15 @@
+# CORE
+numpy 
+pandas 
+
 # TOOLS
 black
 flake8
 isort
 loguru
-mkdocs
 pip
-pytest
 python-dotenv
 hydra-core
-
-# PROJECT
--e .
 
 # API
 fastapi
@@ -20,4 +19,31 @@ pydantic
 typer
 tqdm
 
+# DATA
+opencv-python
+kagglehub
+albumentations
+torchvision
+
+# VISUALISATION AND METRICS
+scikit-learn
+torchmetrics
+matplotlib
+
 # MODELS
+torch
+optuna
+onnx
+onnxruntime
+onnx-simplifier
+
+# DOCUMENTATION
+mkdocs
+mkdocs-material
+
+# TESTS
+pytest
+pytest-cov
+
+# PROJECT
+-e .

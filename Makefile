@@ -6,18 +6,17 @@ PROJECT_NAME = ai-detector-model
 PYTHON_VERSION = 3.11.9
 PYTHON_INTERPRETER = python
 
+DOCS_LOCAL_ADDRESS = localhost:9000
+
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
-
 
 ## Install Python dependencies
 .PHONY: requirements
 requirements:
 	$(PYTHON_INTERPRETER) -m pip install -U pip
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-
-
 
 ## Delete all compiled Python files
 .PHONY: clean
@@ -39,8 +38,6 @@ format:
 	isort ai_detector_model
 	black ai_detector_model
 
-
-
 ## Run tests
 .PHONY: test
 test:
@@ -52,8 +49,21 @@ test:
 create_environment:
 	pipenv --python $(PYTHON_VERSION)
 	@echo ">>> New pipenv created. Activate with:\npipenv shell"
-	
 
+## Build project documents locally
+.PHONY: build_docs
+build_docs:
+	(cd ./docs && mkdocs build)
+
+## Builds and serves documents on DOCS_LOCAL_ADDRESS
+.PHONY: serve_docs
+serve_docs:
+	(cd ./docs && mkdocs serve -a $(DOCS_LOCAL_ADDRESS))
+
+## Builds and deploys documents to project github-pages
+.PHONY: deploy_docs
+deploy_docs:
+	(cd ./docs && mkdocs gh-deploy)
 
 
 #################################################################################

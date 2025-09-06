@@ -1,16 +1,18 @@
 import pytest
 from fastapi.testclient import TestClient
 from fastapi import File
-from ..api import api
+from ai_detector_model.config import *
+from ai_detector_model.api.api import APIController
+from ai_detector_model.api.api import app
 
 def test_verify_image(monkeypatch):
 
     async def mock_get_image_certainty(self, file, filetype):
         return 0.995
      
-    monkeypatch.setattr(api.APIController, "get_image_certainty", mock_get_image_certainty)
+    monkeypatch.setattr(APIController, "get_image_certainty", mock_get_image_certainty)
     
-    client = TestClient(api.app)
+    client = TestClient(app)
 
     files = {"file": "test.png"}
     data = {"type": "image"}

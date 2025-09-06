@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Form
 from pydantic import BaseModel
-from ..ai_detector_model.model_converter import ModelController
+from ai_detector_model.config import *
+from ai_detector_model.model_converter import ModelController
 import asyncio
 
 app = FastAPI()

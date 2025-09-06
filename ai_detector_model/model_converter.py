@@ -1,6 +1,7 @@
 import torch
 import onnxruntime
-module
+from ai_detector_model.config import *
+from models.pytorch.baseline_model_class import CustomBinaryCNN
 def convert_pth_to_onnx(model_class, pth_model_path: str, onnx_save_path: str):
     model = model_class()
     model.load_state_dict(torch.load(pth_model_path, map_location=torch.device('cpu')))

@@ -6,7 +6,11 @@ PROJECT_NAME = ai-detector-model
 PYTHON_VERSION = 3.11.9
 PYTHON_INTERPRETER = python
 
-DOCS_LOCAL_ADDRESS = localhost:9000
+#################################################################################
+# ENV                                                                           #
+#################################################################################
+
+include .env
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -24,6 +28,9 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
+.PHONY: clean_experiments
+clean_experiments:
+	find ./reports/experiments/ -mindepth 1 ! -name ".gitkeep" -delete
 
 ## Lint using flake8, black, and isort (use `make format` to do formatting)
 .PHONY: lint

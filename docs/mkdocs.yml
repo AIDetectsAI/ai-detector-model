@@ -23,5 +23,7 @@ extra_javascript:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
+  - Scripts: scripts.md
   - Experiments:
-      - Metryki: experiments/metrics.md
+      - Configs: experiments/configs.md
+      - Metrics: experiments/metrics.md

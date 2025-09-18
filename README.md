@@ -32,8 +32,6 @@ This project uses a `.env` file for configuration. Create it from the template:
 cp .env.example .env
 ```
 
-> Currently .env is only used for dataset download
-
 ### 🗄️ Local documentation
 
 You can build and serve the project documentation locally using:
@@ -55,6 +53,10 @@ Other useful commands include:
 
 > ℹ️ For more information use: `make help` !
 
+## 📃 Scripts
+
+Repository provides scripts to speed up experimenting and model developing process. Every script is avaliable in `ai_detector_model` subfolder. Detailed description of each script is provided in project documentation [here](https://aidetectsai.github.io/ai-detector-model/experiments/configs/).
+
 ## 🗃️ Documentation
 
 Project documentation is avaliable at adress: https://aidetectsai.github.io/ai-detector-model
@@ -73,6 +75,13 @@ Project documentation is avaliable at adress: https://aidetectsai.github.io/ai-d
 │   └── raw            <- The original, immutable data dump.
 │
 ├── docs               <- A default mkdocs project; see www.mkdocs.org for details
+│
+├── configs/
+│   │── config.yaml    <- Main configuration entry point
+│   │
+│   ├── model/         <- Contains model config files
+│   ├── data/          <- Dataset & preprocessing config files
+│   └── train/         <- Training hyperparameters cofig files
 │
 ├── models             
 │   ├── onnx           <- ONNX graph models

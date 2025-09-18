@@ -10,6 +10,7 @@ loguru
 pip
 python-dotenv
 hydra-core
+hydra-optuna-sweeper
 
 # API
 fastapi

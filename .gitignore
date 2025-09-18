@@ -189,3 +189,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Hydra experiments
+reports/experiments/*
+!reports/experiments/.gitkeep

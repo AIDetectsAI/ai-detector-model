@@ -1,0 +1,18 @@
+# Parameters for baseline model
+
+model:
+  name: custom_binary_cnn
+  input_channels: 3
+  num_classes: 1
+
+  channels: [32, 64, 128, 256]
+
+  stage_dropout: 0.2
+
+  global_pool: true
+
+  fc_hidden: 128
+  fc_dropout: 0.5
+
+  activation: relu
+  final_activation: sigmoid

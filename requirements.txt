@@ -1,11 +1,50 @@
+# CORE
+numpy 
+pandas 
+
+# TOOLS
 black
 flake8
 isort
 loguru
-mkdocs
 pip
-pytest
 python-dotenv
-tqdm
+hydra-core
+hydra-optuna-sweeper
+
+# API
+fastapi
+pydantic
+
+# CLI
 typer
+tqdm
+
+# DATA
+opencv-python
+kagglehub
+albumentations
+torchvision
+
+# VISUALISATION AND METRICS
+scikit-learn
+torchmetrics
+matplotlib
+
+# MODELS
+torch
+optuna
+onnx
+onnxruntime
+onnx-simplifier
+
+# DOCUMENTATION
+mkdocs
+mkdocs-material
+
+# TESTS
+pytest
+pytest-cov
+
+# PROJECT
 -e .

@@ -1,0 +1,27 @@
+defaults:
+  - model: baseline_model
+  - data: default
+  - train: default
+  - _self_
+
+# Project details
+project:
+  name: ai-detector-model
+  seed: 42
+
+# Project paths
+paths:
+  project_root: ..
+  data: ${paths.project_root}/data
+  models: ${paths.project_root}/models
+  outputs: ${paths.project_root}/reports/experiments
+  
+# Hydra output setup
+hydra:
+  run:
+    dir: ${paths.outputs}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir: ${paths.outputs}/multirun/${now:%Y-%m-%d_%H-%M-%S}
+
+logging:
+  level: INFO

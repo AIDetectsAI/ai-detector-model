@@ -6,7 +6,7 @@ from ai_detector_model.image_preprocessor import get_image_dataloader, preproces
 class TestImageFunctions(TestCase):
 
     def test_get_image_dataloader(self):
-        dataloader = get_image_dataloader("img_test", image_size=64, batch_size=4)
+        dataloader = get_image_dataloader("tests/img_test/pokemon", image_size=64, batch_size=4)
         self.assertGreater(len(dataloader), 0, "Dataloader is empty!")
 
         for images, labels in dataloader:

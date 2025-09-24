@@ -48,7 +48,7 @@ format:
 ## Run tests
 .PHONY: test
 test:
-	pipenv run python -m pytest tests
+	python -m pytest tests
 
 
 ## Set up Python interpreter environment

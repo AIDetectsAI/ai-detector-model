@@ -18,8 +18,10 @@ class ModelController():
     def __init__(self, onnx_model_path: str):
         self.ort_session = onnxruntime.InferenceSession(onnx_model_path, providers=["CPUExecutionProvider"])
 
-    def run_onnx_model(self, tensor_to_use):
+    def run_onnx_model(self, tensor_to_use: np.ndarray):
         onnx_input = tensor_to_use.astype(np.float32)
+        if not isinstance(onnx_input, np.ndarray):
+            onnx_input = onnx_input.numpy().astype(np.float32)
         input_name = self.ort_session.get_inputs()[0].name
         onnxruntime_input = {input_name : onnx_input}
         onnxruntime_output = self.ort_session.run(None, onnxruntime_input)[0]

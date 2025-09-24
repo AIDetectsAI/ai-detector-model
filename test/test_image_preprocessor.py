@@ -2,7 +2,7 @@ import os
 import numpy as np
 from unittest import TestCase
 
-from app.image_preprocessor import get_image_dataloader, preprocess_image
+from ai_detector_model.image_preprocessor import get_image_dataloader, preprocess_image
 
 
 class TestImageFunctions(TestCase):

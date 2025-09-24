@@ -13,8 +13,8 @@ class APIController():
     def __init__(self):
         self.model_controller = ModelController("models/onnx/baseline_model.onnx")
 
-    async def get_image_certainty(self, file: File, type: str) -> float:
-        contents = file.read()
+    async def get_image_certainty(self, file: UploadFile, type: str) -> float:
+        contents = await file.read()
         image = Image.open(io.BytesIO(contents)).convert("RGB")
         preprocessed_image = preprocess_image(image)
         result = await asyncio.to_thread(self.model_controller.run_onnx_model, preprocessed_image)

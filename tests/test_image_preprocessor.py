@@ -1,9 +1,7 @@
-import os
+from PIL import Image
 import numpy as np
 from unittest import TestCase
-
 from ai_detector_model.image_preprocessor import get_image_dataloader, preprocess_image
-
 
 class TestImageFunctions(TestCase):
 
@@ -19,8 +17,8 @@ class TestImageFunctions(TestCase):
             break
 
     def test_preprocess_image(self):
-        zapdos_path = os.path.join("img_test", "pokemon", "zapdos.png")
-        img_np = preprocess_image(zapdos_path, image_size=64)
+        img = Image.new("RGB", (100,100), color="red")
+        img_np = preprocess_image(img)
 
         self.assertIsInstance(img_np, np.ndarray, "Returned result is not a numpy array")
         self.assertEqual(img_np.shape, (1, 3, 64, 64), f"Incorrect tensor shape: {img_np.shape}")

@@ -1,9 +1,7 @@
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import numpy as np
-
 from PIL import Image
-
 
 def get_image_dataloader(image_dir: str, image_size: int = 64, batch_size: int = 32, shuffle: bool = False):
     transform = transforms.Compose([
@@ -17,12 +15,11 @@ def get_image_dataloader(image_dir: str, image_size: int = 64, batch_size: int =
     return dataloader
 
 
-def preprocess_image(image_path: str, image_size: int = 64) -> np.ndarray:
+def preprocess_image(img: Image.Image, image_size: int = 64) -> np.ndarray:
     transform = transforms.Compose([
         transforms.Resize((image_size, image_size)),
         transforms.ToTensor()
     ])
 
-    img = Image.open(image_path).convert("RGB")
     tensor = transform(img).unsqueeze(0)
     return tensor.numpy()

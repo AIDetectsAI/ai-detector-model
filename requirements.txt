@@ -13,7 +13,7 @@ hydra-core
 hydra-optuna-sweeper
 
 # API
-fastapi
+fastapi[httpx]
 pydantic
 
 # CLI

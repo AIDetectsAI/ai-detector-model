@@ -50,6 +50,7 @@ Other useful commands include:
 - `make format` – automatically format the code
 - `make test` – run all tests in the tests folder
 - `make data` – prepare the dataset using the provided dataset script
+- `make server` - start serving model locally
 
 > ℹ️ For more information use: `make help` !
 

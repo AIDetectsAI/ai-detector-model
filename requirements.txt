@@ -15,6 +15,7 @@ hydra-optuna-sweeper
 # API
 fastapi[httpx]
 pydantic
+uvicorn[standard]
 
 # CLI
 typer

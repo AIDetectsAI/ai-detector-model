@@ -37,6 +37,7 @@ optuna
 onnx
 onnxruntime
 onnx-simplifier
+onnxscript
 
 # DOCUMENTATION
 mkdocs

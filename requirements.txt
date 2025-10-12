@@ -15,6 +15,7 @@ hydra-optuna-sweeper
 # API
 fastapi[httpx]
 pydantic
+uvicorn[standard]
 
 # CLI
 typer
@@ -37,6 +38,7 @@ optuna
 onnx
 onnxruntime
 onnx-simplifier
+onnxscript
 
 # DOCUMENTATION
 mkdocs

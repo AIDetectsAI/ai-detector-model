@@ -68,7 +68,8 @@ class CustomBinaryCNN(nn.Module):
         x = F.relu(self.fc1(x))
         x = self.dropout(x)
         logits = self.classifier(x)
-        return logits
+        out = self.sigmoid(logits)
+        return out
     
     def predict(self, x):
         self.eval()

@@ -75,7 +75,7 @@ fixable = ["ALL"]
 force-sort-within-sections = true
 
 [tool.ruff.format]
-quote-style = "double"
+quote-style = "single"
 
 [tool.ruff.lint.flake8-bugbear]
 extend-immutable-calls = [

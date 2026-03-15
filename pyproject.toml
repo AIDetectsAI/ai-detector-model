@@ -37,6 +37,7 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "python-multipart>=0.0.22",
     "scikit-learn>=1.8.0",
+    "timm>=1.0.25",
     "tqdm>=4.67.3",
     "typer>=0.24.1",
     "uvicorn[standard]>=0.41.0",
@@ -58,7 +59,7 @@ test = [
 ]
 
 [tool.ruff]
-line-length = 88
+line-length = 99
 indent-width = 4
 src = ["ai_detector_model"]
 include = ["pyproject.toml", "tests/**/*.py", "notebooks/*", "ai_detector_model/*.py"]
@@ -74,5 +75,15 @@ force-sort-within-sections = true
 
 [tool.ruff.format]
 quote-style = "double"
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = [
+    "fastapi.File",
+    "fastapi.Form",
+    "fastapi.Depends",
+    "fastapi.Query",
+    "fastapi.Path",
+    "fastapi.Body"
+]
 
 

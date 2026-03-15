@@ -16,27 +16,30 @@ A machine learning model designed to classify images as either AI-generated or r
 
 ## ⚙️ Project Setup
 
-### 👟 Quickstart
+### Prerequisites
+- make
+- [uv](https://github.com/astral-sh/uv) package manager | [docs](https://docs.astral.sh/uv/)
 
-To set up the project environment, install dependencies, and prepare for development, you can use the provided `Makefile` commands. First, create a Python environment with the required version:
-
-```bash
-make create_environment
-```
-Next, install all Python dependencies:
-
-```bash
-make requirements # For global install
-
-pipenv run make requirements # For pipenv environment install
-```
-
-### 🕵️ Environment setup (Optional)
+### 🕵️ Environment setup
 
 This project uses a `.env` file for configuration. Create it from the template:
 
 ```bash
 cp .env.example .env
+```
+
+### 👟 Quickstart
+
+Create environment and install dependencies:
+
+```bash
+make create_environment
+```
+
+Run pre-commit configuration:
+
+```bash
+make precommit
 ```
 
 ### 🗄️ Local documentation
@@ -53,8 +56,8 @@ make serve_docs       # serve docs at localhost:9000
 Other useful commands include:
 
 - `make clean` – remove compiled Python files and __pycache__ directories
-- `make lint` – check code style using flake8, isort, and black
-- `make format` – automatically format the code
+- `make lint` – check code style using ruff
+- `make format` – automatically format the code with ruff
 - `make test` – run all tests in the tests folder
 - `make data` – prepare the dataset using the provided dataset script
 - `make server` - start serving model locally
@@ -100,17 +103,12 @@ Project documentation is avaliable at adress: https://aidetectsai.github.io/ai-d
 │                         `1.0-jqp-initial-data-exploration`.
 │
 ├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         ai_detector_model and configuration for tools like black
+│                         ai_detector_model and configuration for tools like ruff
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
 │   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
 │
 └── ai_detector_model   <- Source code for use in this project.
     │
@@ -137,6 +135,6 @@ Currently, external contributions to this project are **not accepted**.
 > **Note:** Every pull request **must** be preceded by:
 
 ```bash
-make format   # Format the code using isort & black
+make format   # Format the code using ruff
 make test     # Run all tests to ensure nothing is broken
 ```

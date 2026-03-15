@@ -16,17 +16,17 @@ include .env
 # COMMANDS                                                                      #
 #################################################################################
 
-## create python environment
+## Create python environment (no need to do it)
 .PHONY: create_environment
 create_environment:
 	uv venv --python $(PYTHON_VERSION)
 
-## sync dependencies
+## Install dependencies
 .PHONY: requirements
 requirements:
 	uv sync --all-groups
 
-## configure pre-commit
+## Configure pre-commit
 .PHONY: precommit
 precommit:
 	uv run pre-commit

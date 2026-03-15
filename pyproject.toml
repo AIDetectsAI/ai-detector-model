@@ -6,6 +6,7 @@ build-backend = "flit_core.buildapi"
 name = "ai_detector_model"
 version = "0.0.1"
 description = "A machine learning model designed to classify images as either AI-generated or real, using visual features and patterns to distinguish synthetic content from authentic photographs."
+requires-python = "~=3.12.0"
 authors = [
   { name = "AIDetectsAI" },
 ]

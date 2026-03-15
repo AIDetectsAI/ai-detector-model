@@ -30,10 +30,10 @@ cp .env.example .env
 
 ### 👟 Quickstart
 
-Create environment and install dependencies:
+Install dependencies (uv automatically installs required python version and creates venv) with:
 
 ```bash
-make create_environment
+make requirements
 ```
 
 Run pre-commit configuration:

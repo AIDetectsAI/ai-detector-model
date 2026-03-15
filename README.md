@@ -1,8 +1,15 @@
 # ai-detector-model
 
-<div style="display: flex; flex-wrap: wrap; gap: 5px; align-items: center;">
-    <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/"> <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" /> </a> <!-- Python --> <a target="_blank" href="https://www.python.org/"> <img src="https://img.shields.io/badge/Python-3.11.9-blue?logo=python" /> </a> <!-- PyTorch --> <a target="_blank" href="https://pytorch.org/"> <img src="https://img.shields.io/badge/PyTorch-modeling-red?logo=pytorch" /> </a> <!-- ONNX --> <a target="_blank" href="https://onnx.ai/"> <img src="https://img.shields.io/badge/ONNX-ML-orange?logo=onnx" /> </a> <!-- Hydra --> <a target="_blank" href="https://hydra.cc/"> <img src="https://img.shields.io/badge/Hydra-configuration-5a29e4?logo=hydra" /> </a> <!-- OpenCV --> <a target="_blank" href="https://opencv.org/"> <img src="https://img.shields.io/badge/OpenCV-CV-blue?logo=opencv" /> </a> <!-- pytest --> <a target="_blank" href="https://docs.pytest.org/"> <img src="https://img.shields.io/badge/pytest-testing-4b8bbe?logo=pytest" /> </a> <!-- MkDocs --> <a target="_blank" href="https://www.mkdocs.org/"> <img src="https://img.shields.io/badge/MkDocs-docs-ff69b4?logo=mkdocs" /> </a>
-</div>
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Python](https://img.shields.io/badge/Python-3.12.12-3776AB?logo=python&logoColor=fff)](https://www.python.org/)
+[![CCDS](https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter)](https://cookiecutter-data-science.drivendata.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![ONNX](https://img.shields.io/badge/ONNX-005CED?logo=ONNX&logoColor=white)](https://onnx.ai/)
+[![Hydra](https://img.shields.io/badge/Hydra-configuration-5a29e4?logo=hydra)](https://hydra.cc/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-CV-blue?logo=opencv)](https://opencv.org/)
+[![Pytest](https://img.shields.io/badge/Pytest-fff?logo=pytest&logoColor=000)](https://docs.pytest.org/en/stable/)
+[![MkDocs](https://img.shields.io/badge/MkDocs-526CFE?logo=materialformkdocs&logoColor=fff)](#)
+
 
 
 A machine learning model designed to classify images as either AI-generated or real, using visual features and patterns to distinguish synthetic content from authentic photographs.

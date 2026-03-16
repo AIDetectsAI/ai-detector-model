@@ -29,7 +29,8 @@ requirements:
 ## Configure pre-commit
 .PHONY: precommit
 precommit:
-	uv run pre-commit
+	uv run pre-commit install
+	uv run pre-commit run --all-files
 
 ## Delete all compiled Python files
 .PHONY: clean

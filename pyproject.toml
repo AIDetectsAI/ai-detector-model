@@ -63,7 +63,7 @@ test = [
 line-length = 99
 indent-width = 4
 src = ["ai_detector_model"]
-include = ["pyproject.toml", "tests/**/*.py", "notebooks/*", "ai_detector_model/*.py"]
+include = ["pyproject.toml", "tests/**/*.py", "notebooks/*", "ai_detector_model/**/*.py"]
 
 [tool.ruff.lint]
 # Select which rule categories are enabled

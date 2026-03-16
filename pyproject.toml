@@ -63,7 +63,7 @@ test = [
 line-length = 99
 indent-width = 4
 src = ["ai_detector_model"]
-include = ["pyproject.toml", "tests/**/*.py", "notebooks/*", "ai_detector_model/**/*.py"]
+include = ["tests/**/*.py", "notebooks/*", "ai_detector_model/**/*.py"]
 
 [tool.ruff.lint]
 # Select which rule categories are enabled
@@ -75,7 +75,7 @@ fixable = ["ALL"]
 force-sort-within-sections = true
 
 [tool.ruff.format]
-quote-style = "single"
+quote-style = "double"
 
 [tool.ruff.lint.flake8-bugbear]
 extend-immutable-calls = [
@@ -86,5 +86,3 @@ extend-immutable-calls = [
     "fastapi.Path",
     "fastapi.Body"
 ]
-
-

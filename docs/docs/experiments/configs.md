@@ -58,7 +58,7 @@ logging:
 
 ## 🧠 Model Configuration (`configs/model/`)
 
-This folders contains configuration yaml files for models structure and parameters. 
+This folders contains configuration yaml files for models structure and parameters.
 Example configuration file for baseline model (`baseline_model.yaml`):
 
 ```yaml
@@ -78,7 +78,7 @@ model:
 ## 📊 Data Configuration (`configs/data/`)
 
 The dataset config includes paths, dataloader settings, and transforms.
-Configuration file for project data (`default.yaml`): 
+Configuration file for project data (`default.yaml`):
 
 ```yaml
 dataset:

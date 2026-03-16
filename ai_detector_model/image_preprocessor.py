@@ -10,7 +10,7 @@ def get_image_dataloader(
     transform = transforms.Compose(
         [
             transforms.Resize((image_size, image_size)),
-            transforms.Lambda(lambda img: img.convert('RGB')),
+            transforms.Lambda(lambda img: img.convert("RGB")),
             transforms.ToTensor(),
         ]
     )

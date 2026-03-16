@@ -13,11 +13,11 @@ app = FastAPI()
 
 class APIController:
     def __init__(self):
-        self.model_controller = ModelController('models/onnx/baseline_model.onnx')
+        self.model_controller = ModelController("models/onnx/baseline_model.onnx")
 
     async def get_image_certainty(self, file: UploadFile, type: str) -> float:
         contents = await file.read()
-        image = Image.open(io.BytesIO(contents)).convert('RGB')
+        image = Image.open(io.BytesIO(contents)).convert("RGB")
         preprocessed_image = preprocess_image(image)
         result = await asyncio.to_thread(self.model_controller.run_onnx_model, preprocessed_image)
         return result
@@ -30,7 +30,7 @@ class CertaintyDTO(BaseModel):
     certainty: float
 
 
-@app.post('/verify/image')
+@app.post("/verify/image")
 async def verify_image(file: UploadFile = File(...), type: str = Form(...)):
     certainty = await model_handler.get_image_certainty(file, type)
     return CertaintyDTO(certainty=certainty)

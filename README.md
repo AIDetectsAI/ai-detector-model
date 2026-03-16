@@ -94,7 +94,7 @@ Project documentation is avaliable at adress: https://aidetectsai.github.io/ai-d
 │   ├── data/          <- Dataset & preprocessing config files
 │   └── train/         <- Training hyperparameters cofig files
 │
-├── models             
+├── models
 │   ├── onnx           <- ONNX graph models
 │   └── pytorch        <- Pytorch models (weights - .ptx + model class - .py)
 │
@@ -102,7 +102,7 @@ Project documentation is avaliable at adress: https://aidetectsai.github.io/ai-d
 │                         the creator's initials, and a short `-` delimited description, e.g.
 │                         `1.0-jqp-initial-data-exploration`.
 │
-├── pyproject.toml     <- Project configuration file with package metadata for 
+├── pyproject.toml     <- Project configuration file with package metadata for
 │                         ai_detector_model and configuration for tools like ruff
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
@@ -120,9 +120,9 @@ Project documentation is avaliable at adress: https://aidetectsai.github.io/ai-d
     │
     ├── features.py             <- Code to create features for modeling
     │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
+    ├── modeling
+    │   ├── __init__.py
+    │   ├── predict.py          <- Code to run model inference with trained models
     │   └── train.py            <- Code to train models
     │
     └── plots.py                <- Code to create visualizations

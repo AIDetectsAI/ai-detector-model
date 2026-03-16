@@ -6,7 +6,7 @@ import torch
 
 def convert_pth_to_onnx(model_class, pth_model_path: str, onnx_save_path: str):
     model = model_class()
-    model.load_state_dict(torch.load(pth_model_path, map_location=torch.device('cpu')))
+    model.load_state_dict(torch.load(pth_model_path, map_location=torch.device("cpu")))
 
     test_size = 64
     dummy_input = (torch.randn(1, 3, test_size, test_size),)
@@ -18,7 +18,7 @@ def convert_pth_to_onnx(model_class, pth_model_path: str, onnx_save_path: str):
 class ModelController:
     def __init__(self, onnx_model_path: str):
         self.ort_session = onnxruntime.InferenceSession(
-            onnx_model_path, providers=['CPUExecutionProvider']
+            onnx_model_path, providers=["CPUExecutionProvider"]
         )
 
     def run_onnx_model(self, tensor_to_use: np.ndarray):
@@ -31,8 +31,8 @@ class ModelController:
         return float(onnxruntime_output.item())
 
 
-if __name__ == '__main__':
-    pth_path = 'models/pytorch/baseline_model.pth'
-    onnx_path = 'models/onnx/baseline_model.onnx'
+if __name__ == "__main__":
+    pth_path = "models/pytorch/baseline_model.pth"
+    onnx_path = "models/onnx/baseline_model.onnx"
     classa = CustomBinaryCNN
     convert_pth_to_onnx(model_class=classa, pth_model_path=pth_path, onnx_save_path=onnx_path)

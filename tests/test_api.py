@@ -1,17 +1,17 @@
-from fastapi.testclient import TestClient
-from ai_detector_model.config import *
-from ai_detector_model.api.api import APIController
-from ai_detector_model.api.api import app
-from PIL import Image
 import io
+
+from ai_detector_model.api.api import APIController, app
+from fastapi.testclient import TestClient
+from PIL import Image
+
 
 def test_verify_image(monkeypatch):
 
     async def mock_get_image_certainty(self, file, filetype):
         return 0.995
-     
+
     monkeypatch.setattr(APIController, "get_image_certainty", mock_get_image_certainty)
-    
+
     client = TestClient(app)
 
     files = {"file": "test.png"}
@@ -20,6 +20,7 @@ def test_verify_image(monkeypatch):
 
     assert response.status_code == 200
     assert response.json()["certainty"] == 0.995
+
 
 def test_endpoint_logic():
     img = Image.new("RGB", (64, 64), color=(255, 0, 0))

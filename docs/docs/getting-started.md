@@ -66,9 +66,9 @@ The local docs are useful for quickly checking usage examples, model details, an
 
 This project follows standard Python code formatting and style conventions. To ensure consistency, the following tools are used:
 
-- **Black** – automatically formats Python code to a uniform style  
-- **isort** – sorts imports in a consistent order  
-- **flake8** – checks for style violations and potential errors  
+- **Black** – automatically formats Python code to a uniform style
+- **isort** – sorts imports in a consistent order
+- **flake8** – checks for style violations and potential errors
 
 Before submitting any changes or pull requests, make sure to run:
 
@@ -78,4 +78,3 @@ make lint     # Check code style and errors
 ```
 
 Following these steps helps maintain clean, readable, and consistent code throughout the project.
-

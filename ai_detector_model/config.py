@@ -3,9 +3,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 from loguru import logger
 
-import os
-import sys
-
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
 logger.info(f"PROJ_ROOT path is: {PROJ_ROOT}")
@@ -39,4 +36,3 @@ try:
     logger.add(lambda msg: tqdm.write(msg, end=""), colorize=True)
 except ModuleNotFoundError:
     pass
-

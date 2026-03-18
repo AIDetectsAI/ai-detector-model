@@ -15,7 +15,7 @@ paths:
   data: ${paths.project_root}/data
   models: ${paths.project_root}/models
   outputs: ${paths.project_root}/reports/experiments
-  
+
 # Hydra output setup
 hydra:
   run:

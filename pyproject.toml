@@ -6,6 +6,7 @@ build-backend = "flit_core.buildapi"
 name = "ai_detector_model"
 version = "0.0.1"
 description = "A machine learning model designed to classify images as either AI-generated or real, using visual features and patterns to distinguish synthetic content from authentic photographs."
+requires-python = "~=3.12.0"
 authors = [
   { name = "AIDetectsAI" },
 ]
@@ -13,23 +14,75 @@ authors = [
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
-    
 ]
-requires-python = "~=3.11.0"
+dependencies = [
+    "albumentations>=2.0.8",
+    "fastapi>=0.135.1",
+    "httpx>=0.28.1",
+    "hydra-core>=1.3.2",
+    "hydra-optuna-sweeper>=1.2.0",
+    "kagglehub>=1.0.0",
+    "loguru>=0.7.3",
+    "matplotlib>=3.10.8",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.7.5",
+    "numpy>=2.4.3",
+    "onnx>=1.20.1",
+    "onnxruntime>=1.24.3",
+    "onnxscript>=0.6.2",
+    "opencv-python>=4.13.0.92",
+    "optuna>=2.10.1",
+    "pandas>=3.0.1",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.2",
+    "python-multipart>=0.0.22",
+    "scikit-learn>=1.8.0",
+    "seaborn>=0.13.2",
+    "timm>=1.0.25",
+    "tqdm>=4.67.3",
+    "typer>=0.24.1",
+    "uvicorn[standard]>=0.41.0",
+]
 
-[tool.black]
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.1",
+    "ruff>=0.15.6",
+]
+pytorch = [
+    "torch>=2.10.0",
+    "torchmetrics>=1.9.0",
+    "torchvision>=0.25.0",
+]
+test = [
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+]
+
+[tool.ruff]
 line-length = 99
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.venv
-)/
-'''
+indent-width = 4
+src = ["ai_detector_model"]
+include = ["tests/**/*.py", "notebooks/*", "ai_detector_model/**/*.py"]
 
-[tool.isort]
-profile = "black"
-known_first_party = ["ai_detector_model"]
-force_sort_within_sections = true
+[tool.ruff.lint]
+# Select which rule categories are enabled
+# (E: pycodestyle errors, F: pyflakes, I: import-related, B: bugbears, UP: plugins)
+select = ["E", "F", "I", "UP", "B"]
+fixable = ["ALL"]
 
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
 
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = [
+    "fastapi.File",
+    "fastapi.Form",
+    "fastapi.Depends",
+    "fastapi.Query",
+    "fastapi.Path",
+    "fastapi.Body"
+]

@@ -1,15 +1,17 @@
-from fastapi import FastAPI, File, UploadFile, Form
-from pydantic import BaseModel
-from ai_detector_model.config import *
-from ai_detector_model.model_converter import ModelController
 import asyncio
 import io
+
+from fastapi import FastAPI, File, Form, UploadFile
 from PIL import Image
+from pydantic import BaseModel
+
 from ai_detector_model.image_preprocessor import preprocess_image
+from ai_detector_model.model_converter import ModelController
 
 app = FastAPI()
 
-class APIController():
+
+class APIController:
     def __init__(self):
         self.model_controller = ModelController("models/onnx/baseline_model.onnx")
 
@@ -19,11 +21,14 @@ class APIController():
         preprocessed_image = preprocess_image(image)
         result = await asyncio.to_thread(self.model_controller.run_onnx_model, preprocessed_image)
         return result
-   
+
+
 model_handler = APIController()
+
 
 class CertaintyDTO(BaseModel):
     certainty: float
+
 
 @app.post("/verify/image")
 async def verify_image(file: UploadFile = File(...), type: str = Form(...)):

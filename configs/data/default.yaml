@@ -8,8 +8,8 @@ dataset:
   pin_memory: true
 
   transforms:
-    resize: [148, 148]       
-    crop_size: [128, 128]   
+    resize: [148, 148]
+    crop_size: [128, 128]
 
     horizontal_flip: true
     vertical_flip: false

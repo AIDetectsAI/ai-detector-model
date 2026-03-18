@@ -19,9 +19,9 @@ Na podstawie tej macierzy obliczamy większość metryk klasyfikacyjnych.
 
 ##  Kluczowe metryki
 
-### 1. **Accuracy (dokładność)** 
+### 1. **Accuracy (dokładność)**
 - **Opis**: Procent poprawnie sklasyfikowanych przykładów.
-- **Wzór**:  
+- **Wzór**:
   $$
   \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
   $$
@@ -112,7 +112,7 @@ Załóżmy że model został przetestowany na 1000 przykładach:
 | **Prawda: 1**   | 40 (FN)      | 60 (TP)      |
 
 #### Obliczone metryki:
-- **Accuracy** = 91%  
+- **Accuracy** = 91%
 - **Precision** ≈ 54.5%
 - **Recall** = 60%
 - **F1 Score** ≈ 0.57

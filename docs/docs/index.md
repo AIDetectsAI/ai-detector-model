@@ -7,4 +7,3 @@ A machine learning model designed to classify images as either AI-generated or r
 ## Commands
 
 The Makefile contains the central entry points for common tasks related to this project.
-

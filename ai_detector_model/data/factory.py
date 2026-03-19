@@ -1,8 +1,9 @@
 import albumentations as A
 from omegaconf import DictConfig
+from torch.utils.data import DataLoader, Dataset
 
 
-def get_transforms(cfg: DictConfig, stage="train"):
+def create_transforms(cfg: DictConfig, stage="train") -> A.Compose:
     image_size = cfg.model.input_size
     tr_cfg = cfg.data.transforms
     if stage == "train":
@@ -25,3 +26,28 @@ def get_transforms(cfg: DictConfig, stage="train"):
             ]
         )
     raise ValueError("Wrong stage has been specified")
+
+
+def create_loaders(cfg: DictConfig) -> tuple[DataLoader, DataLoader]:
+    # train_transform = create_transforms(cfg, "train")
+    # test_transform = create_transforms(cfg, "test")
+
+    # TODO
+    train_dataset = Dataset()
+    test_dataset = Dataset()
+
+    train_loader = DataLoader(
+        dataset=train_dataset,
+        batch_size=cfg.data.batch_size,
+        num_workers=cfg.data.num_workers,
+        pin_memory=True,
+        shuffle=False,
+    )
+    test_loader = DataLoader(
+        dataset=test_dataset,
+        batch_size=cfg.data.batch_size,
+        num_workers=cfg.data.num_workers,
+        pin_memory=True,
+    )
+
+    return train_loader, test_loader

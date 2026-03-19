@@ -5,7 +5,7 @@ from fastapi import FastAPI, File, Form, UploadFile
 from PIL import Image
 from pydantic import BaseModel
 
-from ai_detector_model.image_preprocessor import preprocess_image
+from ai_detector_model.data.image_preprocessor import preprocess_image
 from ai_detector_model.model_converter import ModelController
 
 app = FastAPI()

@@ -4,7 +4,7 @@ from loguru import logger
 from tqdm import tqdm
 import typer
 
-from ai_detector_model.config import PROCESSED_DATA_DIR
+from ai_detector_model.core.config import PROCESSED_DATA_DIR
 
 app = typer.Typer()
 

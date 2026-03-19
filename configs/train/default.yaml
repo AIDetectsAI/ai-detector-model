@@ -1,7 +1,19 @@
 optimizer:
-  type: adam
-  lr: 0.001
-  weight_decay: 1e-4
+  adamw:
+    _target_: torch.optim.AdamW
+    _partial_: true
+    lr: 0.001
+    weight_decay: 1e-4
+  adam:
+    _target_: torch.optim.Adam
+    _partial_: true
+    lr: 0.001
+    weight_decay: 1e-4
+
+loss_function:
+  _target_: torch.nn.CrossEntropyLoss
+  label_smoothing: 0.05
+
 
 scheduler:
   type: step_lr

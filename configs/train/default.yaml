@@ -11,8 +11,7 @@ optimizer:
     weight_decay: 1e-4
 
 loss_function:
-  _target_: torch.nn.CrossEntropyLoss
-  label_smoothing: 0.05
+  _target_: torch.nn.BCEWithLogitsLoss
 
 
 scheduler:

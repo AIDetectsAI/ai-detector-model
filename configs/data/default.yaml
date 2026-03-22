@@ -1,4 +1,4 @@
-num_classes: 2
+out_features: 1
 
 dataset:
   name: processed_dataset

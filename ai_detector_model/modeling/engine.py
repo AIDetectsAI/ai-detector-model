@@ -22,7 +22,7 @@ class Trainer:
         train_loader: DataLoader | None,
         test_loader: DataLoader | None,
         device: str,
-        output_dir: str
+        output_dir: str,
     ):
         self.model = model
         self.loss_fn = loss_fn

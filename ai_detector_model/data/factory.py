@@ -1,6 +1,10 @@
+import os.path
+
 import albumentations as A
 from omegaconf import DictConfig
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader
+
+from ai_detector_model.data.dataset import ClassificationDataset
 
 
 def create_transforms(cfg: DictConfig, stage="train") -> A.Compose:
@@ -29,12 +33,14 @@ def create_transforms(cfg: DictConfig, stage="train") -> A.Compose:
 
 
 def create_loaders(cfg: DictConfig) -> tuple[DataLoader, DataLoader]:
-    # train_transform = create_transforms(cfg, "train")
-    # test_transform = create_transforms(cfg, "test")
+    train_transform = create_transforms(cfg, "train")
+    test_transform = create_transforms(cfg, "test")
 
-    # TODO
-    train_dataset = Dataset()
-    test_dataset = Dataset()
+    train_path = os.path.join(cfg.data.dataset.path, "train")
+    test_path = os.path.join(cfg.data.dataset.path, "test")
+
+    train_dataset = ClassificationDataset(train_path, train_transform)
+    test_dataset = ClassificationDataset(test_path, test_transform)
 
     train_loader = DataLoader(
         dataset=train_dataset,

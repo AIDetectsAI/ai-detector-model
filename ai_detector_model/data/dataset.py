@@ -3,7 +3,7 @@ from torch.utils.data import Dataset
 from torchvision.datasets import ImageFolder
 
 
-class ImageDataset(Dataset):
+class ClassificationDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.base_dataset = ImageFolder(root=root_dir)
         self.classes = self.base_dataset.classes

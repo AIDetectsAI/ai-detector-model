@@ -43,6 +43,8 @@ def main(
 
     model = hydra.utils.instantiate(cfg.model.estimator)
 
+    # if you want to use other architecture - create section for swapping head
+    # and pulling backbone and head params separately. use appropriate optimizer.
     if cfg.model.model_type == "efficientnet":
         model: EfficientNet
         model.classifier[1] = nn.Linear(
@@ -77,7 +79,7 @@ def main(
         train_loader=train_loader,
         test_loader=test_loader,
         device=DEVICE,
-        output_dir=output_dir
+        output_dir=output_dir,
     )
     logger.info("STARTING TRAINING")
     trainer.train(max_epochs=cfg.train.epochs)

@@ -76,10 +76,8 @@ def main(
         test_loader=test_loader,
         device=DEVICE,
     )
-    trainer.train()
-
-    logger.info("Starting model training")
-    logger.success("Modeling training complete.")
+    logger.info("STARTING TRAINING")
+    trainer.train(max_epochs=cfg.train.epochs)
 
 
 if __name__ == "__main__":

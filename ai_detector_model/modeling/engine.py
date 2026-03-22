@@ -69,6 +69,8 @@ class Trainer:
         return np.mean(losses)
 
     def evaluate(self) -> dict:
+        if self.test_loader is None:
+            raise ValueError("TestLoader cannot be None")
         self.model.eval()
         self.metrics.reset()
 
@@ -93,6 +95,8 @@ class Trainer:
         return scores
 
     def train(self, max_epochs: int):
+        if self.train_loader is None or self.test_loader is None:
+            raise ValueError("DataLoaders cannot be None")
         best_f1 = 0.0
         best_epoch = -1
         model_path = os.path.join(self.output_dir, "model.pth")

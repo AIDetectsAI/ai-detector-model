@@ -9,7 +9,7 @@ import torch.nn as nn
 from torchvision.models import EfficientNet
 
 from ai_detector_model.core.config import CONFIG_DIR
-from ai_detector_model.data.factory import create_loaders
+from ai_detector_model.data.factory import create_test_loader, create_train_loader
 from ai_detector_model.modeling.engine import Trainer
 
 # DEVICE SETUP
@@ -37,7 +37,9 @@ def main(
 ):
     output_dir = HydraConfig.get().runtime.output_dir
     logger.info("Creating data loaders")
-    train_loader, test_loader = create_loaders(cfg)
+
+    train_loader = create_train_loader(cfg)
+    test_loader = create_test_loader(cfg)
 
     logger.info("Instantiating objects")
 

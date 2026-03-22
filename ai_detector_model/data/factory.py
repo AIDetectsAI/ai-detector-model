@@ -1,10 +1,10 @@
 import os.path
+from typing import Any
 
 import albumentations as A
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader
 
-from ai_detector_model.core.config import PROCESSED_DATA_DIR
 from ai_detector_model.data.dataset import ClassificationDataset
 
 
@@ -33,28 +33,32 @@ def create_transforms(cfg: DictConfig, stage="train") -> A.Compose:
     raise ValueError("Wrong stage has been specified")
 
 
-def create_loaders(cfg: DictConfig) -> tuple[DataLoader, DataLoader]:
+def create_train_loader(cfg: DictConfig) -> DataLoader[Any]:
     train_transform = create_transforms(cfg, "train")
-    test_transform = create_transforms(cfg, "test")
-
-    train_path = os.path.join(PROCESSED_DATA_DIR, "train")
-    test_path = os.path.join(PROCESSED_DATA_DIR, "test")
-
+    train_path = os.path.join(cfg.data.dataset.path, "train")
     train_dataset = ClassificationDataset(train_path, train_transform)
-    test_dataset = ClassificationDataset(test_path, test_transform)
 
     train_loader = DataLoader(
         dataset=train_dataset,
         batch_size=cfg.data.dataset.batch_size,
         num_workers=cfg.data.dataset.num_workers,
-        pin_memory=True,
-        shuffle=False,
+        pin_memory=cfg.data.dataset.pin_memory,
+        shuffle=cfg.data.dataset.shuffle,
     )
+
+    return train_loader
+
+
+def create_test_loader(cfg: DictConfig) -> DataLoader[Any]:
+    test_transform = create_transforms(cfg, "test")
+    test_path = os.path.join(cfg.data.dataset.path, "test")
+    test_dataset = ClassificationDataset(test_path, test_transform)
+
     test_loader = DataLoader(
         dataset=test_dataset,
         batch_size=cfg.data.dataset.batch_size,
         num_workers=cfg.data.dataset.num_workers,
-        pin_memory=True,
+        pin_memory=cfg.data.dataset.pin_memory,
     )
 
-    return train_loader, test_loader
+    return test_loader

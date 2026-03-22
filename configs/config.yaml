@@ -11,7 +11,7 @@ project:
 
 # Project paths
 paths:
-  project_root: ..
+  project_root: ${hydra:runtime.cwd}
   data: ${paths.project_root}/data
   models: ${paths.project_root}/models
   outputs: ${paths.project_root}/reports/experiments

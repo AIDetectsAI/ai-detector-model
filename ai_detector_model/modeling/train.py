@@ -53,7 +53,7 @@ def main(
         head_params = model.classifier.parameters()
 
         optim_partial = hydra.utils.instantiate(cfg.train.optimizer.adamw)
-        base_lr = cfg.optimizer.adamw.lr
+        base_lr = cfg.train.optimizer.adamw.lr
 
     else:
         raise ValueError("Model type unknown")

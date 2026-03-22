@@ -50,7 +50,7 @@ class Trainer:
         self.optim.zero_grad()
         for i, (images, labels) in enumerate(self.train_loader):
             images = images.to(self.device)
-            labels = images.to(self.device)
+            labels = labels.to(self.device)
 
             pred = self.model(images)
             loss = self.loss_fn(pred, labels)
@@ -75,7 +75,7 @@ class Trainer:
         with torch.no_grad():
             for images, labels in self.test_loader:
                 images = images.to(self.device)
-                labels = images.to(self.device)
+                labels = labels.to(self.device)
 
                 pred = self.model(images)
 

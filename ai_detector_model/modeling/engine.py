@@ -52,8 +52,8 @@ class Trainer:
             images = images.to(self.device)
             labels = labels.to(self.device)
 
-            pred = self.model(images)
-            loss = self.loss_fn(pred, labels)
+            pred = self.model(images).squeeze(-1)
+            loss = self.loss_fn(pred, labels.float())
             loss.backward()
             losses.append(loss.item())
 
@@ -77,12 +77,12 @@ class Trainer:
                 images = images.to(self.device)
                 labels = labels.to(self.device)
 
-                pred = self.model(images)
+                pred = self.model(images).squeeze(-1)
 
-                loss = self.loss_fn(pred, labels)
+                loss = self.loss_fn(pred, labels.float())
                 losses.append(loss.item())
 
-                self.metrics.update(pred, labels)
+                self.metrics.update(torch.sigmoid(pred), labels)
 
         scores = {k: v.item() for k, v in self.metrics.compute().items()}
         scores["validation_loss"] = np.mean(losses)

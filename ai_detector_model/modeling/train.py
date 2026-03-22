@@ -45,7 +45,7 @@ def main(
         model: EfficientNet
         model.classifier[1] = nn.Linear(
             in_features=model.classifier[1].in_features,
-            out_features=cfg.data.num_classes,
+            out_features=cfg.data.out_features,
         )
         backbone_params = [
             param for name, param in model.named_parameters() if "classifier" not in name

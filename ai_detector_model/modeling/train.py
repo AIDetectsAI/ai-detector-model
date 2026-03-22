@@ -1,6 +1,7 @@
 import os
 
 import hydra
+from hydra.core.hydra_config import HydraConfig
 from loguru import logger
 from omegaconf import DictConfig
 from torch import cuda
@@ -34,6 +35,7 @@ logger.info(f"Training device: {DEVICE}")
 def main(
     cfg: DictConfig,
 ):
+    output_dir = HydraConfig.get().runtime.output_dir
     logger.info("Creating data loaders")
     train_loader, test_loader = create_loaders(cfg)
 
@@ -75,6 +77,7 @@ def main(
         train_loader=train_loader,
         test_loader=test_loader,
         device=DEVICE,
+        output_dir=output_dir
     )
     logger.info("STARTING TRAINING")
     trainer.train(max_epochs=cfg.train.epochs)

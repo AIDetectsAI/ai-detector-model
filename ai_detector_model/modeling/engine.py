@@ -1,3 +1,4 @@
+import os.path
 from typing import Any
 
 from loguru import logger
@@ -21,6 +22,7 @@ class Trainer:
         train_loader: DataLoader | None,
         test_loader: DataLoader | None,
         device: str,
+        output_dir: str
     ):
         self.model = model
         self.loss_fn = loss_fn
@@ -28,6 +30,7 @@ class Trainer:
         self.train_loader = train_loader
         self.test_loader = test_loader
         self.device = device
+        self.output_dir = output_dir
 
         self.metrics = torchmetrics.MetricCollection(
             {
@@ -92,7 +95,7 @@ class Trainer:
     def train(self, max_epochs: int):
         best_f1 = 0.0
         best_epoch = -1
-        model_path = "curr_best_model.pth"
+        model_path = os.path.join(self.output_dir, "model.pth")
         for epoch in range(max_epochs):
             logger.info(f"Epoch: {epoch}")
             train_loss = self.train_one_epoch(epoch)

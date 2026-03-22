@@ -4,12 +4,13 @@ import albumentations as A
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader
 
+from ai_detector_model.core.config import PROCESSED_DATA_DIR
 from ai_detector_model.data.dataset import ClassificationDataset
 
 
 def create_transforms(cfg: DictConfig, stage="train") -> A.Compose:
     image_size = cfg.model.input_size
-    tr_cfg = cfg.data.transforms
+    tr_cfg = cfg.data.dataset.transforms
     if stage == "train":
         return A.Compose(
             [
@@ -36,23 +37,23 @@ def create_loaders(cfg: DictConfig) -> tuple[DataLoader, DataLoader]:
     train_transform = create_transforms(cfg, "train")
     test_transform = create_transforms(cfg, "test")
 
-    train_path = os.path.join(cfg.data.dataset.path, "train")
-    test_path = os.path.join(cfg.data.dataset.path, "test")
+    train_path = os.path.join(PROCESSED_DATA_DIR, "train")
+    test_path = os.path.join(PROCESSED_DATA_DIR, "test")
 
     train_dataset = ClassificationDataset(train_path, train_transform)
     test_dataset = ClassificationDataset(test_path, test_transform)
 
     train_loader = DataLoader(
         dataset=train_dataset,
-        batch_size=cfg.data.batch_size,
-        num_workers=cfg.data.num_workers,
+        batch_size=cfg.data.dataset.batch_size,
+        num_workers=cfg.data.dataset.num_workers,
         pin_memory=True,
         shuffle=False,
     )
     test_loader = DataLoader(
         dataset=test_dataset,
-        batch_size=cfg.data.batch_size,
-        num_workers=cfg.data.num_workers,
+        batch_size=cfg.data.dataset.batch_size,
+        num_workers=cfg.data.dataset.num_workers,
         pin_memory=True,
     )
 

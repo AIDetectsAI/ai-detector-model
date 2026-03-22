@@ -15,7 +15,7 @@ def create_transforms(cfg: DictConfig, stage="train") -> A.Compose:
         return A.Compose(
             [
                 A.Resize(image_size, image_size),
-                A.HorizontalFlip(tr_cfg.horizontal_flip_p),
+                A.HorizontalFlip(p=tr_cfg.horizontal_flip_p),
                 A.VerticalFlip(p=tr_cfg.vertical_flip_p),
                 A.Rotate(limit=tr_cfg.rotation, p=0.5),
                 A.Normalize(mean=tr_cfg.normalize.mean, std=tr_cfg.normalize.std),

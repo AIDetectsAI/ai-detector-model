@@ -30,6 +30,16 @@ if not _device_available:
 
 logger.info(f"Training device: {DEVICE}")
 
+USE_AMP = os.getenv("USE_AMP")
+match USE_AMP:
+    case "true":
+        USE_AMP=True
+        pass
+    case _:
+        USE_AMP=False
+
+logger.info(f"USE_AMP = {USE_AMP}")
+
 
 @hydra.main(config_path=str(CONFIG_DIR), config_name="config", version_base="1.3")
 def main(
@@ -82,6 +92,7 @@ def main(
         test_loader=test_loader,
         device=DEVICE,
         output_dir=output_dir,
+        use_amp=USE_AMP
     )
     logger.info("STARTING TRAINING")
     trainer.train(max_epochs=cfg.train.epochs)

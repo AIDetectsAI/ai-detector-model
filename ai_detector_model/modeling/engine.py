@@ -23,6 +23,7 @@ class Trainer:
         test_loader: DataLoader | None,
         device: str,
         output_dir: str,
+        use_amp: bool,
     ):
         self.model = model
         self.loss_fn = loss_fn
@@ -31,6 +32,8 @@ class Trainer:
         self.test_loader = test_loader
         self.device = device
         self.output_dir = output_dir
+        self.use_amp = use_amp
+        self.scaler = torch.amp.GradScaler(device, enabled=use_amp)
 
         self.metrics = torchmetrics.MetricCollection(
             {
@@ -50,18 +53,21 @@ class Trainer:
         losses = []
         images: Tensor
         labels: Tensor
-        self.optim.zero_grad()
         for i, (images, labels) in enumerate(self.train_loader):
-            images = images.to(self.device)
-            labels = labels.to(self.device)
-
-            pred = self.model(images).squeeze(-1)
-            loss = self.loss_fn(pred, labels.float())
-            loss.backward()
-            losses.append(loss.item())
-
-            self.optim.step()
             self.optim.zero_grad()
+            images = images.to(self.device, non_blocking=True)
+            labels = labels.to(self.device, non_blocking=True)
+
+            with torch.autocast(
+                device_type=self.device, dtype=torch.float16, enabled=self.use_amp
+            ):
+                pred = self.model(images).squeeze(-1)
+                loss = self.loss_fn(pred, labels.float())
+
+            losses.append(loss.item())
+            self.scaler.scale(loss).backward()
+            self.scaler.step(self.optim)
+            self.scaler.update()
 
             if i % 100 == 0:
                 logger.info(f"Epoch {idx}, Batch {i}/{n}")
@@ -79,15 +85,18 @@ class Trainer:
         losses = []
         with torch.no_grad():
             for images, labels in self.test_loader:
-                images = images.to(self.device)
-                labels = labels.to(self.device)
+                images = images.to(self.device, non_blocking=True)
+                labels = labels.to(self.device, non_blocking=True)
 
-                pred = self.model(images).squeeze(-1)
+                with torch.autocast(
+                    device_type=self.device, dtype=torch.float16, enabled=self.use_amp
+                ):
+                    pred = self.model(images).squeeze(-1)
+                    loss = self.loss_fn(pred, labels.float())
 
-                loss = self.loss_fn(pred, labels.float())
                 losses.append(loss.item())
 
-                self.metrics.update(torch.sigmoid(pred), labels)
+                self.metrics.update(torch.sigmoid(pred.float()), labels)
 
         scores = {k: v.item() for k, v in self.metrics.compute().items()}
         scores["validation_loss"] = np.mean(losses)

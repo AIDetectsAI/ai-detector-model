@@ -44,6 +44,7 @@ def create_train_loader(cfg: DictConfig) -> DataLoader[Any]:
         num_workers=cfg.data.dataset.num_workers,
         pin_memory=cfg.data.dataset.pin_memory,
         shuffle=cfg.data.dataset.shuffle,
+        prefetch_factor=cfg.data.dataset.prefetch_factor
     )
 
     return train_loader
@@ -59,6 +60,7 @@ def create_test_loader(cfg: DictConfig) -> DataLoader[Any]:
         batch_size=cfg.data.dataset.batch_size,
         num_workers=cfg.data.dataset.num_workers,
         pin_memory=cfg.data.dataset.pin_memory,
+        prefetch_factor=cfg.data.dataset.prefetch_factor
     )
 
     return test_loader

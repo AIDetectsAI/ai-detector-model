@@ -8,6 +8,7 @@ dataset:
   shuffle: true
   num_workers: 4
   pin_memory: true
+  prefetch_factor: 2
 
   transforms:
     crop_size: [128, 128]

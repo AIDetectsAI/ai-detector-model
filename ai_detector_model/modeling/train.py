@@ -9,6 +9,7 @@ import torch.nn as nn
 from torchvision.models import EfficientNet
 
 from ai_detector_model.core.config import CONFIG_DIR
+from ai_detector_model.core.seeding import seed_everything
 from ai_detector_model.data.factory import create_test_loader, create_train_loader
 from ai_detector_model.modeling.engine import Trainer
 
@@ -45,6 +46,7 @@ logger.info(f"USE_AMP = {USE_AMP}")
 def main(
     cfg: DictConfig,
 ):
+    seed_everything(cfg)
     output_dir = HydraConfig.get().runtime.output_dir
     logger.info("Creating data loaders")
 

@@ -33,10 +33,10 @@ logger.info(f"Training device: {DEVICE}")
 USE_AMP = os.getenv("USE_AMP")
 match USE_AMP:
     case "true":
-        USE_AMP=True
+        USE_AMP = True
         pass
     case _:
-        USE_AMP=False
+        USE_AMP = False
 
 logger.info(f"USE_AMP = {USE_AMP}")
 
@@ -92,7 +92,9 @@ def main(
         test_loader=test_loader,
         device=DEVICE,
         output_dir=output_dir,
-        use_amp=USE_AMP
+        use_amp=USE_AMP,
+        metric_name=cfg.train.metric.name,
+        metric_mode=cfg.train.metric.mode,
     )
     logger.info("STARTING TRAINING")
     trainer.train(max_epochs=cfg.train.epochs)

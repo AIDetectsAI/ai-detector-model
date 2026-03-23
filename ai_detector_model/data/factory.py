@@ -45,7 +45,7 @@ def create_train_loader(cfg: DictConfig) -> DataLoader[Any]:
         pin_memory=cfg.data.dataset.pin_memory,
         shuffle=cfg.data.dataset.shuffle,
         prefetch_factor=cfg.data.dataset.prefetch_factor,
-        drop_last=True
+        drop_last=True,
     )
 
     return train_loader

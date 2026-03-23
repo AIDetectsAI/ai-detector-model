@@ -24,6 +24,8 @@ class Trainer:
         device: str,
         output_dir: str,
         use_amp: bool,
+        metric_name: str = "f1",
+        metric_mode: str = "max",
     ):
         self.model = model
         self.loss_fn = loss_fn
@@ -34,6 +36,8 @@ class Trainer:
         self.output_dir = output_dir
         self.use_amp = use_amp
         self.scaler = torch.amp.GradScaler(device, enabled=use_amp)
+        self.metric_name = metric_name
+        self.metric_mode = metric_mode
 
         self.metrics = torchmetrics.MetricCollection(
             {
@@ -106,7 +110,7 @@ class Trainer:
     def train(self, max_epochs: int):
         if self.train_loader is None or self.test_loader is None:
             raise ValueError("DataLoaders cannot be None")
-        best_f1 = 0.0
+        best_metric = -float("inf") if self.metric_mode == "max" else float("inf")
         best_epoch = -1
         model_path = os.path.join(self.output_dir, "model.pth")
         for epoch in range(max_epochs):
@@ -117,12 +121,23 @@ class Trainer:
             scores["training_loss"] = train_loss
             logger.info(f"Metrics for epoch {epoch}: {scores}")
 
-            curr_f1 = scores["f1"]
-            if curr_f1 > best_f1:
-                logger.info(f"New model with better F1 found: f1 = {curr_f1}")
-                best_f1 = curr_f1
+            if self.metric_name not in scores:
+                raise ValueError(
+                    f"Metric '{self.metric_name}' not found! "
+                    f"Available metrics are: {list(scores.keys())}"
+                )
+
+            curr_metric = scores[self.metric_name]
+
+            if (
+                curr_metric > best_metric
+                if self.metric_mode == "max"
+                else curr_metric < best_metric
+            ):
+                logger.info(f"New model with better {self.metric_name} found: f1 = {curr_metric}")
+                best_metric = curr_metric
                 best_epoch = epoch
                 torch.save(self.model.state_dict(), model_path)
 
         logger.info("TRAINING FINISHED")
-        logger.info(f"Best f1 score achieved: {best_f1} in epoch {best_epoch}")
+        logger.info(f"Best {self.metric_name} achieved: {best_metric} in epoch {best_epoch}")

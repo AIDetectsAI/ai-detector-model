@@ -13,6 +13,9 @@ optimizer:
 loss_function:
   _target_: torch.nn.BCEWithLogitsLoss
 
+metric:
+  name: f1
+  mode: max
 
 scheduler:
   type: step_lr

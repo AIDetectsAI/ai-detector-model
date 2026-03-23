@@ -11,8 +11,6 @@ dataset:
   prefetch_factor: 2
 
   transforms:
-    crop_size: [128, 128]
-
     horizontal_flip_p: 0.5
     vertical_flip_p: 0.0
     rotation: 15

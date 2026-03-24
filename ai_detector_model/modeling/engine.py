@@ -132,7 +132,10 @@ class Trainer:
                 if self.metric_mode == "max"
                 else curr_metric < best_metric
             ):
-                logger.info(f"New model with better {self.metric_name} found: {self.metric_name} = {curr_metric}")
+                logger.info(
+                    f"New model with better {self.metric_name} found: "
+                    f"{self.metric_name} = {curr_metric}"
+                )
                 best_metric = curr_metric
                 best_epoch = epoch
                 torch.save(self.model.state_dict(), model_path)

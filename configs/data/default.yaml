@@ -1,3 +1,5 @@
+out_features: 1
+
 dataset:
   name: processed_dataset
   path: ${paths.data}/processed/
@@ -6,13 +8,11 @@ dataset:
   shuffle: true
   num_workers: 4
   pin_memory: true
+  prefetch_factor: 2
 
   transforms:
-    resize: [148, 148]
-    crop_size: [128, 128]
-
-    horizontal_flip: true
-    vertical_flip: false
+    horizontal_flip_p: 0.5
+    vertical_flip_p: 0.0
     rotation: 15
 
     normalize:

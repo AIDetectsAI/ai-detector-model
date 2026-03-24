@@ -5,7 +5,7 @@ import sys
 from loguru import logger
 import typer
 
-from config import MODELS_DIR
+from ai_detector_model.core.config import MODELS_DIR
 
 app = typer.Typer()
 

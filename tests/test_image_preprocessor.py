@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from ai_detector_model.image_preprocessor import get_image_dataloader, preprocess_image
+from ai_detector_model.data.image_preprocessor import get_image_dataloader, preprocess_image
 import numpy as np
 from PIL import Image
 

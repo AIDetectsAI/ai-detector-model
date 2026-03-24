@@ -1,7 +1,21 @@
 optimizer:
-  type: adam
-  lr: 0.001
-  weight_decay: 1e-4
+  adamw:
+    _target_: torch.optim.AdamW
+    _partial_: true
+    lr: 0.001
+    weight_decay: 1e-4
+  adam:
+    _target_: torch.optim.Adam
+    _partial_: true
+    lr: 0.001
+    weight_decay: 1e-4
+
+loss_function:
+  _target_: torch.nn.BCEWithLogitsLoss
+
+metric:
+  name: f1
+  mode: max
 
 scheduler:
   type: step_lr
@@ -14,3 +28,5 @@ grad_clip: 1.0
 
 log_interval: 10
 checkpoint_interval: 5
+
+seed: 2137

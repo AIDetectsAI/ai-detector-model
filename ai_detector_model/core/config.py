@@ -4,8 +4,7 @@ from dotenv import load_dotenv
 from loguru import logger
 
 # Paths
-PROJ_ROOT = Path(__file__).resolve().parents[1]
-logger.info(f"PROJ_ROOT path is: {PROJ_ROOT}")
+PROJ_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # Load environment variables from .env file if it exists
 load_dotenv()
@@ -36,3 +35,6 @@ try:
     logger.add(lambda msg: tqdm.write(msg, end=""), colorize=True)
 except ModuleNotFoundError:
     pass
+
+if __name__ == "__main__":
+    logger.info(f"PROJ_ROOT path is: {PROJ_ROOT}")

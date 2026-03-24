@@ -35,7 +35,6 @@ class Trainer:
         self.device = device
         self.output_dir = output_dir
         self.use_amp = use_amp
-        self.scaler = torch.amp.GradScaler(device, enabled=use_amp)
         self.metric_name = metric_name
         self.metric_mode = metric_mode
 
@@ -63,15 +62,14 @@ class Trainer:
             labels = labels.to(self.device, non_blocking=True)
 
             with torch.autocast(
-                device_type=self.device, dtype=torch.float16, enabled=self.use_amp
+                device_type=self.device, dtype=torch.bfloat16, enabled=self.use_amp
             ):
                 pred = self.model(images).squeeze(-1)
                 loss = self.loss_fn(pred, labels.float())
 
             losses.append(loss.item())
-            self.scaler.scale(loss).backward()
-            self.scaler.step(self.optim)
-            self.scaler.update()
+            loss.backward()
+            self.optim.step()
 
             if i % 100 == 0:
                 logger.info(f"Epoch {idx}, Batch {i}/{n}")
@@ -93,7 +91,7 @@ class Trainer:
                 labels = labels.to(self.device, non_blocking=True)
 
                 with torch.autocast(
-                    device_type=self.device, dtype=torch.float16, enabled=self.use_amp
+                    device_type=self.device, dtype=torch.bfloat16, enabled=self.use_amp
                 ):
                     pred = self.model(images).squeeze(-1)
                     loss = self.loss_fn(pred, labels.float())
@@ -134,7 +132,7 @@ class Trainer:
                 if self.metric_mode == "max"
                 else curr_metric < best_metric
             ):
-                logger.info(f"New model with better {self.metric_name} found: f1 = {curr_metric}")
+                logger.info(f"New model with better {self.metric_name} found: {self.metric_name} = {curr_metric}")
                 best_metric = curr_metric
                 best_epoch = epoch
                 torch.save(self.model.state_dict(), model_path)

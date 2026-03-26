@@ -3,7 +3,8 @@ import os
 import hydra
 from hydra.core.hydra_config import HydraConfig
 from loguru import logger
-from omegaconf import DictConfig
+import mlflow
+from omegaconf import DictConfig, OmegaConf
 from torch import cuda
 import torch.nn as nn
 from torchvision.models import EfficientNet
@@ -98,9 +99,22 @@ def main(
         metric_name=cfg.train.metric.name,
         metric_mode=cfg.train.metric.mode,
     )
-    logger.info("STARTING TRAINING")
-    trainer.train(max_epochs=cfg.train.epochs)
 
+    """
+    Training requires there to be directories data/processed/test/<classes_dirs>
+    and data/processed/train/<classes_dirs> with content inside
+    """
+    mlflow.set_experiment('elasticnet')
+    with mlflow.start_run():
+        mlflow.log_param('device', DEVICE)
+        mlflow.log_params(OmegaConf.to_container(cfg, resolve=True))
+        mlflow.set_tag("model_type", cfg.model.model_type)
+        mlflow.log_param("device", DEVICE)
+        mlflow.log_param("use_amp", USE_AMP)
+
+        logger.info("STARTING TRAINING")
+        trainer.train(max_epochs=cfg.train.epochs)
+        logger.info("TRAINING FINISHED")
 
 if __name__ == "__main__":
     main()

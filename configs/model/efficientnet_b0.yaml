@@ -1,8 +1,22 @@
+project_name: "ai-detector-model"
+
 model_name: 'EFFICIENTNET-B0'
 model_type: 'efficientnet'
 pretrained: true
 input_size: 224
-
 estimator:
   _target_: torchvision.models.efficientnet_b0
   weights: 'DEFAULT'
+
+train:
+  epochs: 10
+  optimizer:
+    adamw:
+      _target_: torch.optim.AdamW
+      lr: 0.001
+      weight_decay: 0.01
+  loss_function:
+    _target_: torch.nn.BCEWithLogitsLoss
+  metric:
+    name: "f1"
+    mode: "max"

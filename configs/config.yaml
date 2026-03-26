@@ -1,5 +1,5 @@
 defaults:
-  - model: baseline_model
+  - model: efficientnet_b0
   - data: default
   - train: default
   - _self_

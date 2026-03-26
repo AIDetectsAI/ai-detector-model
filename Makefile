@@ -74,12 +74,19 @@ serve_docs:
 deploy_docs:
 	(cd ./docs && uv run mkdocs gh-deploy)
 
+ HOST ?= 127.0.0.1
+
 ## Starts serving model, use HOST= and/or PORT= parameters to specify, e.g. make server HOST=127.0.0.5 PORT=2005; default 127.0.0.1:8000
 .PHONY: server
-HOST ?= 127.0.0.1
-PORT ?= 8000
+server: PORT ?= 8000
 server:
 	uv run uvicorn ai_detector_model.api.api:app --reload --host $(HOST) --port $(PORT)
+
+## Start mlflow dashboard at set address. use HOST= and/or PORT= parameters to specify. Default 127.0.0.1:5000
+.PHONY: flow
+flow: PORT ?= 5000
+flow:
+	uv run mlflow ui --host $(HOST) --port $(PORT)
 
 #################################################################################
 # PROJECT RULES                                                                 #

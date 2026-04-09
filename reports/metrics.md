@@ -1,4 +1,4 @@
-# Raport dotyczący metryk dotewaluacji jakości klasyfikacji
+# Raport dotyczący metryk dot. ewaluacji jakości klasyfikacji
 
 ## Kontekst biznesowy
 
@@ -13,7 +13,7 @@ Należy wziąć to pod uwagę podczas ewaluacji.
 - F1 Score
 - ROC AUC
 
-#### Dlaczego te metryki są wadliwe?
+### Dlaczego te metryki są wadliwe?
 
 - Accuracy
   - fatalne dla niezbalansowanych klas

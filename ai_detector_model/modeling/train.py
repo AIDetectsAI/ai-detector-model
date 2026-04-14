@@ -104,9 +104,9 @@ def main(
     Training requires there to be directories data/processed/test/<classes_dirs>
     and data/processed/train/<classes_dirs> with content inside
     """
-    mlflow.set_experiment('elasticnet')
+    mlflow.set_experiment("elasticnet")
     with mlflow.start_run():
-        mlflow.log_param('device', DEVICE)
+        mlflow.log_param("device", DEVICE)
         mlflow.log_params(OmegaConf.to_container(cfg, resolve=True))
         mlflow.set_tag("model_type", cfg.model.model_type)
         mlflow.log_param("device", DEVICE)
@@ -115,6 +115,7 @@ def main(
         logger.info("STARTING TRAINING")
         trainer.train(max_epochs=cfg.train.epochs)
         logger.info("TRAINING FINISHED")
+
 
 if __name__ == "__main__":
     main()

@@ -76,11 +76,11 @@ class Trainer:
                 logger.info(f"Epoch {idx}, Batch {i}/{n}")
 
         epoch_loss = np.mean(losses)
-        mlflow.log_metric('train_loss_epoch', epoch_loss, step=idx)
+        mlflow.log_metric("train_loss_epoch", epoch_loss, step=idx)
 
-        current_lr = self.optim.param_groups[0]['lr']
+        current_lr = self.optim.param_groups[0]["lr"]
         mlflow.log_metric("lr", current_lr, step=idx)
-        
+
         return epoch_loss
 
     def evaluate(self, epoch_idx: int) -> dict:
@@ -149,7 +149,7 @@ class Trainer:
                 best_metric = curr_metric
                 best_epoch = epoch
                 torch.save(self.model.state_dict(), model_path)
-                #mlflow.pytorch.log_model(self.model, artifact_path='model_best',
+                # mlflow.pytorch.log_model(self.model, artifact_path='model_best',
                 # log_datasets=False)
 
         logger.info("TRAINING FINISHED")

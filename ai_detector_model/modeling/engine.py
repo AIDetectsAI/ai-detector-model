@@ -149,7 +149,8 @@ class Trainer:
                 best_metric = curr_metric
                 best_epoch = epoch
                 torch.save(self.model.state_dict(), model_path)
-                #mlflow.pytorch.log_model(self.model, artifact_path='model_best', log_datasets=False)
+                #mlflow.pytorch.log_model(self.model, artifact_path='model_best',
+                # log_datasets=False)
 
         logger.info("TRAINING FINISHED")
         logger.info(f"Best {self.metric_name} achieved: {best_metric} in epoch {best_epoch}")

@@ -28,8 +28,9 @@ Należy wziąć to pod uwagę podczas ewaluacji.
 ## Przegląd zaawansowanych metryk
 
 - Matthews Correlation Coefficient (MCC)
-  - MCC = (TP × TN - FP × FN) / sqrt((TP + FP) × (TP + FN) × (TN + FP) × (TN + FN))
-  - lepsze od F1 - wysoki wynik tylko, gdy klasyfikator dobrze przewiuje obydwie klasy
+  - Matthews Correlation Coefficient (MCC)
+    - $MCC = \frac{TP \times TN - FP \times FN}{\sqrt{(TP + FP)(TP + FN)(TN + FP)(TN + FN)}}$
+    - lepsze od F1 - wysoki wynik tylko, gdy klasyfikator dobrze przewiduje obydwie klasy
 - Precision-Recall Curve / AUC
   - lepsze od ROC dla niezbalansowanych klas - Precision uwzględnia rozkład klas
   - pozwala na zoptymalizowanie progu odcięcia, żeby utrzymywać Precision na wysokim poziomie

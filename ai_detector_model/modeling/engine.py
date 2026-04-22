@@ -110,9 +110,6 @@ class Trainer:
         scores = {k: v.item() for k, v in self.metrics.compute().items()}
         scores["validation_loss"] = np.mean(losses)
 
-        for metric_name, value in scores.items():
-            mlflow.log_metric(f"val_{metric_name}", value, step=epoch_idx)
-
         return scores
 
     def train(self, max_epochs: int):

@@ -109,7 +109,6 @@ def main(
         mlflow.log_param("device", DEVICE)
         mlflow.log_params(OmegaConf.to_container(cfg, resolve=True))
         mlflow.set_tag("model_type", cfg.model.model_type)
-        mlflow.log_param("device", DEVICE)
         mlflow.log_param("use_amp", USE_AMP)
 
         logger.info("STARTING TRAINING")

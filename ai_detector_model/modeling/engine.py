@@ -152,6 +152,8 @@ class Trainer:
                 torch.save(self.model.state_dict(), model_path)
 
         self.model.load_state_dict(torch.load(model_path, weights_only=True))
-        mlflow.pytorch.log_model(self.model, artifact_path='model_best', registered_model_name='BEST_MODEL_NAME')
+        mlflow.pytorch.log_model(
+            self.model, artifact_path="model_best", registered_model_name="BEST_MODEL_NAME"
+        )
         logger.info("TRAINING FINISHED")
         logger.info(f"Best {self.metric_name} achieved: {best_metric} in epoch {best_epoch}")

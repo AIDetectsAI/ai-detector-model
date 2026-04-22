@@ -136,6 +136,7 @@ class Trainer:
                 )
 
             curr_metric = scores[self.metric_name]
+            mlflow.log_metrics(scores, step=epoch)
 
             if (
                 curr_metric > best_metric
@@ -149,8 +150,8 @@ class Trainer:
                 best_metric = curr_metric
                 best_epoch = epoch
                 torch.save(self.model.state_dict(), model_path)
-                # mlflow.pytorch.log_model(self.model, artifact_path='model_best',
-                # log_datasets=False)
 
+        self.model.load_state_dict(torch.load(model_path, weights_only=True))
+        mlflow.pytorch.log_model(self.model, artifact_path='model_best', registered_model_name='BEST_MODEL_NAME')
         logger.info("TRAINING FINISHED")
         logger.info(f"Best {self.metric_name} achieved: {best_metric} in epoch {best_epoch}")

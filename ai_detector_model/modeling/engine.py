@@ -2,6 +2,7 @@ import os.path
 from typing import Any
 
 from loguru import logger
+import mlflow
 import numpy as np
 from numpy import floating
 import torch
@@ -74,9 +75,15 @@ class Trainer:
             if i % 100 == 0:
                 logger.info(f"Epoch {idx}, Batch {i}/{n}")
 
-        return np.mean(losses)
+        epoch_loss = np.mean(losses)
+        mlflow.log_metric("train_loss_epoch", epoch_loss, step=idx)
 
-    def evaluate(self) -> dict:
+        current_lr = self.optim.param_groups[0]["lr"]
+        mlflow.log_metric("lr", current_lr, step=idx)
+
+        return epoch_loss
+
+    def evaluate(self, epoch_idx: int) -> dict:
         if self.test_loader is None:
             raise ValueError("TestLoader cannot be None")
         self.model.eval()
@@ -114,7 +121,7 @@ class Trainer:
         for epoch in range(max_epochs):
             logger.info(f"Epoch: {epoch}")
             train_loss = self.train_one_epoch(epoch)
-            scores = self.evaluate()
+            scores = self.evaluate(epoch)
 
             scores["training_loss"] = train_loss
             logger.info(f"Metrics for epoch {epoch}: {scores}")
@@ -126,6 +133,7 @@ class Trainer:
                 )
 
             curr_metric = scores[self.metric_name]
+            mlflow.log_metrics(scores, step=epoch)
 
             if (
                 curr_metric > best_metric
@@ -140,5 +148,9 @@ class Trainer:
                 best_epoch = epoch
                 torch.save(self.model.state_dict(), model_path)
 
+        self.model.load_state_dict(torch.load(model_path, weights_only=True))
+        mlflow.pytorch.log_model(
+            self.model, artifact_path="model_best", registered_model_name="BEST_MODEL_NAME"
+        )
         logger.info("TRAINING FINISHED")
         logger.info(f"Best {self.metric_name} achieved: {best_metric} in epoch {best_epoch}")

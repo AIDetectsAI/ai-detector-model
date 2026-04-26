@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import json
 from pathlib import Path
 import re
@@ -31,7 +32,9 @@ def _resolve_latest_version(client: MlflowClient, model_name: str) -> str:
 
 @app.command()
 def main(
-    registered_model_name: str = typer.Argument(..., help="Registered MLflow model name."),
+    registered_model_name: str = typer.Argument(
+        "latent-stable-model", help="Registered MLflow model name."
+    ),
     version: str | None = typer.Option(
         None, "--version", help="Model version. If omitted, latest version is used."
     ),
@@ -51,6 +54,8 @@ def main(
     run = client.get_run(model_info.run_id)
     run_data = run.data
 
+    model_data = ast.literal_eval(run_data.params.get("model"))
+
     metadata = {
         "registered_model_name": registered_model_name,
         "model_version": model_version,
@@ -59,9 +64,9 @@ def main(
         "source": model_info.source,
         "status": model_info.status,
         "run_name": run.info.run_name,
-        "model_name": run_data.params.get("model.model_name") or run_data.params.get("model_name"),
-        "model_type": run_data.params.get("model.model_type") or run_data.params.get("model_type"),
-        "input_size": run_data.params.get("model.input_size") or run_data.params.get("input_size"),
+        "model_name": model_data.get("model_name"),
+        "model_type": model_data.get("model_type"),
+        "input_size": model_data.get("input_size"),
         "class_to_idx": run_data.params.get("labels"),
         "device": run_data.params.get("device"),
         "use_amp": run_data.params.get("use_amp"),

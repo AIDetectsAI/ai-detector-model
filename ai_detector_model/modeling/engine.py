@@ -11,7 +11,7 @@ import torch.nn as nn
 from torch.optim import Optimizer
 from torch.utils.data import DataLoader
 import torchmetrics
-from torchmetrics import Accuracy, F1Score, Precision, Recall, MatthewsCorrCoef
+from torchmetrics import Accuracy, F1Score, MatthewsCorrCoef, Precision, Recall
 
 
 class Trainer:
@@ -47,7 +47,7 @@ class Trainer:
                     task="binary",
                 ),
                 "f1": F1Score(task="binary"),
-                "mcc": MatthewsCorrCoef(task="binary")
+                "mcc": MatthewsCorrCoef(task="binary"),
             }
         ).to(device=self.device)
 

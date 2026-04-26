@@ -197,3 +197,4 @@ reports/experiments/*
 !reports/experiments/.gitkeep
 
 mlflow.db
+mlruns

@@ -28,5 +28,3 @@ grad_clip: 1.0
 
 log_interval: 10
 checkpoint_interval: 5
-
-seed: 2137

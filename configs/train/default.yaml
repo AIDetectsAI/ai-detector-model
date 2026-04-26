@@ -14,7 +14,7 @@ loss_function:
   _target_: torch.nn.BCEWithLogitsLoss
 
 metric:
-  name: f1
+  name: mcc
   mode: max
 
 scheduler:

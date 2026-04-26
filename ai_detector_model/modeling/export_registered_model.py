@@ -65,6 +65,7 @@ def main(
         "class_to_idx": run_data.params.get("labels"),
         "device": run_data.params.get("device"),
         "use_amp": run_data.params.get("use_amp"),
+        "metrics": run_data.metrics,
     }
 
     export_dir = output_root / f"{_safe_name(registered_model_name)}_v{_safe_name(model_version)}"

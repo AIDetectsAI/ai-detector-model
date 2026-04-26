@@ -68,7 +68,7 @@ def main(
         "metrics": run_data.metrics,
     }
 
-    export_dir = output_root / f"{_safe_name(registered_model_name)}_v{_safe_name(model_version)}"
+    export_dir = output_root / f"{registered_model_name}_v{model_version}"
     export_dir.mkdir(parents=True, exist_ok=True)
 
     pth_path = export_dir / "model.pth"

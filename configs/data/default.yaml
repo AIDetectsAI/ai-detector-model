@@ -4,7 +4,7 @@ dataset:
   name: processed_dataset
   path: ${paths.data}/processed/
   channels: 3
-  batch_size: 64
+  batch_size: 32
   shuffle: true
   num_workers: 4
   pin_memory: true

@@ -1,6 +1,6 @@
 1. Modele Vision Transformer (ViT): A dokładniej Deep-Fake-Detector-v2 (ViT-base)
 https://huggingface.co/prithivMLmods/Deep-Fake-Detector-v2-Model
-Osiągnął całkiem dobre wyniki i jest wytrenowany na 
+Osiągnął całkiem dobre wyniki i jest wytrenowany na
 
 2. DeepfakeBench. Na jego podstawie powstały artykuły naukowe. Składa się z 36 detektorów. Ma formę frameworku z którego łatwo można przetestować różne rozwiązania
 Zawiera też odnośniki do 9 datasetów(wiele z nich podałem w zakładce danych) i pozwala szybko sprawdzić na nich model. Generalnie Wydaje się dosyć ciężkim rozwiązaniem ale ma dużo gotowych opcji więc imo mega top

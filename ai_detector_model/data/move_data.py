@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-import csv
 from collections.abc import Iterable
+import csv
 from pathlib import Path
 import random
 import shutil
+from typing import Annotated
 
 from loguru import logger
 import typer
@@ -64,20 +65,28 @@ def _copy_files(files: list[Path], source_root: Path, destination_root: Path) ->
 
 @app.command()
 def main(
-    artifact_root: Path = typer.Argument(
-        DEFAULT_ARTIFACT_ROOT, help="Path to local ArtiFact dataset root directory."
-    ),
-    output_root: Path = typer.Option(
-        PROCESSED_DATA_DIR, "--output-root", help="Output root, default: data/processed"
-    ),
-    seed: int = typer.Option(42, help="Seed used for fake data train/test split."),
-    train_ratio: float = typer.Option(
-        0.75, min=0.0, max=1.0, help="Train ratio for fake sources."
-    ),
-    clean: bool = typer.Option(
-        True,
-        help="Remove existing data/processed/train and data/processed/test before copying.",
-    ),
+    artifact_root: Annotated[
+        Path,
+        typer.Argument(help="Path to local ArtiFact dataset root directory."),
+    ],
+    output_root: Annotated[
+        Path,
+        typer.Option(help="Output root, default: data/processed"),
+    ] = PROCESSED_DATA_DIR,
+    seed: Annotated[
+        int,
+        typer.Option(help="Seed used for fake data train/test split."),
+    ] = 42,
+    train_ratio: Annotated[
+        float,
+        typer.Option(min=0.0, max=1.0, help="Train ratio for fake sources."),
+    ] = 0.75,
+    clean: Annotated[
+        bool,
+        typer.Option(
+            help="Remove existing data/processed/train and data/processed/test before copying."
+        ),
+    ] = True,
 ) -> None:
     """Copy selected ArtiFact sources into train/test folder structure used by loaders."""
     artifact_root = artifact_root.expanduser().resolve()

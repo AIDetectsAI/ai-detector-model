@@ -38,10 +38,12 @@ def _read_metadata(metadata_path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
-def _index_images_by_filename(root: Path) -> dict[str, Path]:
-    indexed: dict[str, Path] = {}
+def _index_images_by_filename(root: Path) -> dict[str, list[Path]]:
+    indexed: dict[str, list[Path]] = {}
     for image_path in _collect_images(root):
-        indexed.setdefault(image_path.name, image_path)
+        indexed.setdefault(image_path.name, []).append(image_path)
+    for paths in indexed.values():
+        paths.sort()
     return indexed
 
 
@@ -50,17 +52,6 @@ def _ensure_exists(paths: Iterable[Path]) -> None:
     if missing:
         joined = "\n".join(str(path) for path in missing)
         raise typer.BadParameter(f"Missing required paths:\n{joined}")
-
-
-def _copy_files(files: list[Path], source_root: Path, destination_root: Path) -> int:
-    copied = 0
-    for file_path in files:
-        relative_path = file_path.relative_to(source_root)
-        destination_file = destination_root / relative_path
-        destination_file.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(file_path, destination_file)
-        copied += 1
-    return copied
 
 
 @app.command()
@@ -108,10 +99,10 @@ def main(
 
     train_root = output_root / "train"
     test_root = output_root / "test"
-    train_fake_root = train_root / "fake"
-    test_fake_root = test_root / "fake"
-    train_real_root = train_root / "real"
-    test_real_root = test_root / "real"
+    train_real_root = train_root / "0_real"
+    train_fake_root = train_root / "1_fake"
+    test_real_root = test_root / "0_real"
+    test_fake_root = test_root / "1_fake"
 
     if clean:
         if train_root.exists():
@@ -123,19 +114,21 @@ def main(
         path.mkdir(parents=True, exist_ok=True)
 
     logger.info("Collecting fake data from metadata.csv")
-    fake_entries: list[tuple[str, Path]] = []
+    fake_entries: list[tuple[str, Path, Path]] = []
     for source_name, source_root in fake_sources.items():
         indexed_images = _index_images_by_filename(source_root)
         rows = _read_metadata(source_root / "metadata.csv")
         for row in rows:
             filename = row["filename"]
-            image_path = indexed_images.get(filename)
-            if image_path is None:
+            candidates = indexed_images.get(filename, [])
+            if not candidates:
                 raise FileNotFoundError(f"Could not find {filename} under {source_root}")
-            fake_entries.append((source_name, image_path))
+            image_path = candidates.pop(0)
+            relative_path = image_path.relative_to(source_root)
+            fake_entries.append((source_name, image_path, relative_path))
         logger.info(f"Found {len(rows)} files in {source_name}")
 
-    fake_entries.sort(key=lambda item: str(item[1]))
+    fake_entries.sort(key=lambda item: f"{item[0]}/{item[2]}")
     rng = random.Random(seed)
     rng.shuffle(fake_entries)
 
@@ -143,16 +136,22 @@ def main(
     train_fake_entries = fake_entries[:split_idx]
     test_fake_entries = fake_entries[split_idx:]
 
+    train_ids = {f"{source}/{relative}" for source, _, relative in train_fake_entries}
+    test_ids = {f"{source}/{relative}" for source, _, relative in test_fake_entries}
+    overlap = train_ids & test_ids
+    if overlap:
+        raise RuntimeError("Split leakage detected in fake samples")
+
     fake_train_copied = 0
     fake_test_copied = 0
-    for source_name, file_path in train_fake_entries:
-        destination_file = train_fake_root / source_name / file_path.name
+    for source_name, file_path, relative_path in train_fake_entries:
+        destination_file = train_fake_root / source_name / relative_path
         destination_file.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(file_path, destination_file)
         fake_train_copied += 1
 
-    for source_name, file_path in test_fake_entries:
-        destination_file = test_fake_root / source_name / file_path.name
+    for source_name, file_path, relative_path in test_fake_entries:
+        destination_file = test_fake_root / source_name / relative_path
         destination_file.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(file_path, destination_file)
         fake_test_copied += 1

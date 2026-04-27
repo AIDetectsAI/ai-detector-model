@@ -1,20 +1,32 @@
 import io
 
-from ai_detector_model.api import api
 from fastapi.testclient import TestClient
 from PIL import Image
 
 
 class _StubInferenceController:
     def __init__(self, *_args, **_kwargs):
-        self.metadata = type("_Meta", (), {"model_name": "stub-model"})()
-        self.class_to_idx = {"0_real": 0, "1_fake": 1}
+        self.metadata = type(
+            "_Meta",
+            (),
+            {
+                "model_name": "stub-architecture",
+                "parsed_classes": {"0_real": 0, "1_fake": 1},
+            },
+        )()
+
+    @property
+    def class_to_idx(self):
+        return {"0_real": 0, "1_fake": 1}
 
     def predict(self, _image):
         return 0.995
 
 
 def test_verify_image(monkeypatch):
+    from ai_detector_model.api import api
+
+    monkeypatch.setattr(api, "InferenceController", _StubInferenceController)
     monkeypatch.setattr(api, "inference_engine", _StubInferenceController())
     client = TestClient(api.app)
 
@@ -24,14 +36,16 @@ def test_verify_image(monkeypatch):
     buf.seek(0)
 
     files = {"file": ("test.png", buf, "image/png")}
-    data = {"type": "image"}
-    response = client.post("/verify/image", files=files, data=data)
+    response = client.post("/verify/image", files=files, data={"type": "image"})
 
     assert response.status_code == 200
     assert response.json() == {"certainty": 0.995}
 
 
 def test_endpoint_logic(monkeypatch):
+    from ai_detector_model.api import api
+
+    monkeypatch.setattr(api, "InferenceController", _StubInferenceController)
     monkeypatch.setattr(api, "inference_engine", _StubInferenceController())
     client = TestClient(api.app)
 
@@ -41,8 +55,7 @@ def test_endpoint_logic(monkeypatch):
     buf.seek(0)
 
     files = {"file": ("test.png", buf, "image/png")}
-    data = {"type": "image"}
-    response = client.post("/verify/image", files=files, data=data)
+    response = client.post("/verify/image", files=files, data={"type": "image"})
 
     assert response.status_code == 200
     json_data = response.json()

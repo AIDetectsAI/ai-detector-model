@@ -13,7 +13,7 @@ class ModelFactory:
     def get_pytorch_model(model_name: str, num_classes: int):
         if model_name == "EFFICIENTNET-B0":
             model = efficientnet_b0(weights=None)
-            model.classifier[1] = nn.Linear(model.classifier[1].in_features, 1)
+            model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes - 1)
             return model
         else:
             raise ValueError(f"Not supported model: {model_name}")

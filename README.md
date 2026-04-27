@@ -56,6 +56,54 @@ To start the API:
 make server
 ```
 
+### 🗂️ Model Storage
+
+Models in this project are stored in two parallel locations:
+
+- `models/pytorch/<MODEL_NAME>/`
+- `models/onnx/<MODEL_NAME>/`
+
+The `<MODEL_NAME>` part is the model directory name from `ACTIVE_MODEL_DIR`, for example `latent-stable-model_v1`.
+
+#### PyTorch models
+
+The PyTorch version of a model should be stored in:
+
+```text
+models/pytorch/<MODEL_NAME>/model.pth
+```
+
+This directory should also contain the MLflow export metadata:
+
+```text
+models/pytorch/<MODEL_NAME>/metadata.json
+```
+
+The metadata file is used to recover the most important information about the model, such as:
+
+- model architecture name
+- model type
+- input size
+- class mapping
+- MLflow run ID
+- model version
+
+#### ONNX models
+
+The ONNX export should be stored in:
+
+```text
+models/onnx/<MODEL_NAME>/model.onnx
+```
+
+This directory should also contain the same metadata file copied from the PyTorch export:
+
+```text
+models/onnx/<MODEL_NAME>/metadata.json
+```
+
+If the ONNX file is missing, the API will convert the PyTorch model from `models/pytorch/<MODEL_NAME>/` and create the matching ONNX directory automatically.
+
 ### 🗄️ Local documentation
 
 You can build and serve the project documentation locally using:

@@ -82,6 +82,12 @@ Other useful commands include:
 
 Repository provides scripts to speed up experimenting and model developing process. Every script is avaliable in `ai_detector_model` subfolder. Detailed description of each script is provided in project documentation [here](https://aidetectsai.github.io/ai-detector-model/experiments/configs/).
 
+### Dataset preparation and evaluation
+
+- `ai_detector_model/utils/build_dataset.py` prepares the processed training dataset from the ArtiFact source tree. It copies real and fake images into the `data/processed/train` and `data/processed/test` folders using the metadata files, and creates a train/test split for fake samples.
+- `ai_detector_model/utils/build_final_test_set.py` builds a balanced final test set from the ArtiFact dataset. It selects real and fake sources, removes exact duplicates by file hash, avoids overlap with the existing processed dataset, and writes a manifest plus a JSON report.
+- `ai_detector_model/utils/evaluate_final_test.py` evaluates a saved PyTorch checkpoint on the final test set. It loads model metadata, applies the project preprocessing pipeline, computes classification metrics, and can optionally save the report as JSON.
+
 ## 🗃️ Documentation
 
 Project documentation is avaliable at adress: https://aidetectsai.github.io/ai-detector-model

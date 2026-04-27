@@ -26,8 +26,7 @@ class _StubInferenceController:
 def test_verify_image(monkeypatch):
     from ai_detector_model.api import api
 
-    monkeypatch.setattr(api, "InferenceController", _StubInferenceController)
-    monkeypatch.setattr(api, "inference_engine", _StubInferenceController())
+    monkeypatch.setattr(api, "get_inference_engine", lambda: _StubInferenceController())
     client = TestClient(api.app)
 
     img = Image.new("RGB", (64, 64), color=(255, 0, 0))
@@ -45,8 +44,7 @@ def test_verify_image(monkeypatch):
 def test_endpoint_logic(monkeypatch):
     from ai_detector_model.api import api
 
-    monkeypatch.setattr(api, "InferenceController", _StubInferenceController)
-    monkeypatch.setattr(api, "inference_engine", _StubInferenceController())
+    monkeypatch.setattr(api, "get_inference_engine", lambda: _StubInferenceController())
     client = TestClient(api.app)
 
     img = Image.new("RGB", (64, 64), color=(255, 0, 0))

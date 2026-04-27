@@ -1,5 +1,6 @@
 import asyncio
 import io
+from typing import cast
 
 from fastapi import FastAPI, File, Form, UploadFile
 from PIL import Image
@@ -11,7 +12,14 @@ from ai_detector_model.api.model_schema import ACTIVE_MODEL_NAME
 
 app = FastAPI()
 
-inference_engine = InferenceController(get_pytorch_model_dir(ACTIVE_MODEL_NAME))
+inference_engine = None
+
+
+def get_inference_engine() -> InferenceController:
+    global inference_engine
+    if inference_engine is None:
+        inference_engine = InferenceController(get_pytorch_model_dir(ACTIVE_MODEL_NAME))
+    return cast(InferenceController, inference_engine)
 
 
 class CertaintyDTO(BaseModel):
@@ -25,7 +33,8 @@ async def verify_image(file: UploadFile = File(...), type: str = Form(...)):
     contents = await file.read()
     image = Image.open(io.BytesIO(contents)).convert("RGB")
 
-    result = await asyncio.to_thread(inference_engine.predict, image)
+    engine = get_inference_engine()
+    result = await asyncio.to_thread(engine.predict, image)
 
     return CertaintyDTO(
         certainty=result,

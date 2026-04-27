@@ -30,5 +30,5 @@ def preprocess_image(img: Image.Image, image_size: int = 64) -> np.ndarray:
         ]
     )
 
-    tensor = transform(img).unsqueeze(0)
+    tensor = transform(image=np.array(img))["image"].unsqueeze(0)
     return tensor.numpy()

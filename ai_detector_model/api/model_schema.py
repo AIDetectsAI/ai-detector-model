@@ -2,7 +2,10 @@ import ast
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
 from pydantic import BaseModel
+
+load_dotenv()
 
 
 class ModelMetadata(BaseModel):
@@ -18,5 +21,7 @@ class ModelMetadata(BaseModel):
         return self.class_to_idx
 
 
-ACTIVE_MODEL_DIR = os.getenv("ACTIVE_MODEL_DIR", "latent-stable-model_v1")
-MODELS_BASE_PATH = Path("models") / ACTIVE_MODEL_DIR
+ACTIVE_MODEL_NAME = os.getenv("ACTIVE_MODEL_DIR", "latent-stable-model")
+
+MODELS_PYTORCH_BASE_PATH = Path("models") / "pytorch" / ACTIVE_MODEL_NAME
+MODELS_ONNX_BASE_PATH = Path("models") / "onnx" / ACTIVE_MODEL_NAME

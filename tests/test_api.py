@@ -5,18 +5,10 @@ from fastapi.testclient import TestClient
 from PIL import Image
 
 
-class _StubMetadata:
-    model_name = "stub-model"
-
-
 class _StubInferenceController:
     def __init__(self, *_args, **_kwargs):
-        self.metadata = _StubMetadata()
-        self._class_to_idx = {"0_real": 0, "1_fake": 1}
-
-    @property
-    def class_to_idx(self):
-        return self._class_to_idx
+        self.metadata = type("_Meta", (), {"model_name": "stub-model"})()
+        self.class_to_idx = {"0_real": 0, "1_fake": 1}
 
     def predict(self, _image):
         return 0.995
@@ -32,13 +24,11 @@ def test_verify_image(monkeypatch):
     buf.seek(0)
 
     files = {"file": ("test.png", buf, "image/png")}
-    response = client.post("/verify/image", files=files)
+    data = {"type": "image"}
+    response = client.post("/verify/image", files=files, data=data)
 
     assert response.status_code == 200
-    json_data = response.json()
-    assert json_data["certainty"] == 0.995
-    assert json_data["model_used"] == "stub-model"
-    assert json_data["class_to_idx"] == {"0_real": 0, "1_fake": 1}
+    assert response.json() == {"certainty": 0.995}
 
 
 def test_endpoint_logic(monkeypatch):
@@ -51,7 +41,8 @@ def test_endpoint_logic(monkeypatch):
     buf.seek(0)
 
     files = {"file": ("test.png", buf, "image/png")}
-    response = client.post("/verify/image", files=files)
+    data = {"type": "image"}
+    response = client.post("/verify/image", files=files, data=data)
 
     assert response.status_code == 200
     json_data = response.json()

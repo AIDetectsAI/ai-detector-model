@@ -42,6 +42,20 @@ Run pre-commit configuration:
 make precommit
 ```
 
+### 🚀 API
+
+The API uses a locally stored model from the `models` directory.
+
+- The PyTorch model should be stored in `models/pytorch/<MODEL_NAME>/model.pth`
+- If the ONNX model is missing, it will be created automatically in `models/onnx/<MODEL_NAME>/model.onnx`
+- Set the model directory name in `.env` using `ACTIVE_MODEL_DIR`, for example: `ACTIVE_MODEL_DIR=latent-stable-model`
+
+To start the API:
+
+```bash
+make server
+```
+
 ### 🗄️ Local documentation
 
 You can build and serve the project documentation locally using:

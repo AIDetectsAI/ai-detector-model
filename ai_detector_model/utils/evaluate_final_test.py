@@ -21,10 +21,11 @@ from sklearn.metrics import (
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
-from torchvision import transforms
 from torchvision.models import efficientnet_b0
 from tqdm import tqdm
 import typer
+
+from ai_detector_model.data.image_preprocessor import preprocess_image
 
 app = typer.Typer(add_completion=False)
 
@@ -83,16 +84,6 @@ def _resolve_class_to_idx(dataset_root: Path, metadata: dict[str, Any]) -> dict[
     return {"0_real": 0, "1_fake": 1}
 
 
-def _build_transform(input_size: int):
-    return transforms.Compose(
-        [
-            transforms.Resize((input_size, input_size)),
-            transforms.Lambda(lambda img: img.convert("RGB")),
-            transforms.ToTensor(),
-        ]
-    )
-
-
 def _build_model(model_type: str) -> nn.Module:
     if model_type == "efficientnet":
         model = efficientnet_b0(weights=None)
@@ -113,7 +104,7 @@ def _build_model(model_type: str) -> nn.Module:
 class _FinalTestDataset(Dataset):
     def __init__(self, root: Path, input_size: int):
         self.root = root
-        self.transform = _build_transform(input_size)
+        self.input_size = input_size
         self.samples: list[tuple[Path, int]] = []
         class_to_idx = {"0_real": 0, "1_fake": 1}
 
@@ -131,8 +122,8 @@ class _FinalTestDataset(Dataset):
     def __getitem__(self, idx: int):
         path, label = self.samples[idx]
         image = Image.open(path).convert("RGB")
-        image = self.transform(image)
-        return image, label
+        image = preprocess_image(image, image_size=self.input_size)
+        return torch.from_numpy(image.squeeze(0)), label
 
 
 def _load_torch_model(model_path: Path, metadata: dict[str, Any]) -> nn.Module:

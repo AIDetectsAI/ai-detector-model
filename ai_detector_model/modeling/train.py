@@ -104,12 +104,13 @@ def main(
     Training requires there to be directories data/processed/test/<classes_dirs>
     and data/processed/train/<classes_dirs> with content inside
     """
-    mlflow.set_experiment("elasticnet")
+    mlflow.set_experiment("diffusion_model_recognition")
     with mlflow.start_run():
         mlflow.log_param("device", DEVICE)
         mlflow.log_params(OmegaConf.to_container(cfg, resolve=True))
         mlflow.set_tag("model_type", cfg.model.model_type)
         mlflow.log_param("use_amp", USE_AMP)
+        mlflow.log_param("labels", train_loader.dataset.base_dataset.class_to_idx)
 
         logger.info("STARTING TRAINING")
         trainer.train(max_epochs=cfg.train.epochs)

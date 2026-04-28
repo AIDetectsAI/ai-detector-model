@@ -25,6 +25,4 @@ class TestImageFunctions(TestCase):
 
         self.assertIsInstance(img_np, np.ndarray, "Returned result is not a numpy array")
         self.assertEqual(img_np.shape, (1, 3, 64, 64), f"Incorrect tensor shape: {img_np.shape}")
-        self.assertTrue(
-            (img_np >= 0).all() and (img_np <= 1).all(), "Values are outside the [0,1] range"
-        )
+        self.assertTrue(np.isfinite(img_np).all(), "Tensor contains non-finite values")

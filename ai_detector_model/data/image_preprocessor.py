@@ -1,3 +1,4 @@
+import albumentations as A
 import numpy as np
 from PIL import Image
 from torch.utils.data import DataLoader
@@ -21,9 +22,13 @@ def get_image_dataloader(
 
 
 def preprocess_image(img: Image.Image, image_size: int = 64) -> np.ndarray:
-    transform = transforms.Compose(
-        [transforms.Resize((image_size, image_size)), transforms.ToTensor()]
+    transform = A.Compose(
+        [
+            A.Resize(image_size, image_size),
+            A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+            A.ToTensorV2(),
+        ]
     )
 
-    tensor = transform(img).unsqueeze(0)
+    tensor = transform(image=np.array(img))["image"].unsqueeze(0)
     return tensor.numpy()

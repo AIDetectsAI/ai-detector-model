@@ -7,7 +7,7 @@ import torch
 
 
 def seed_everything(cfg: DictConfig):
-    seed = cfg.train.seed
+    seed = cfg.project.seed
     random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
     np.random.seed(seed)

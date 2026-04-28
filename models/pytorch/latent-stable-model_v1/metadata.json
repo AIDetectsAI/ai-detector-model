@@ -1,0 +1,26 @@
+{
+  "registered_model_name": "latent-stable-model",
+  "model_version": 1,
+  "model_uri": "models:/latent-stable-model/1",
+  "run_id": "8d1435fe98a94fb7abfb8ca5e7ca3621",
+  "source": "models:/m-266111f136cb4d3ebdc77d8c664f661c",
+  "status": "READY",
+  "run_name": "capable-auk-759",
+  "model_name": "EFFICIENTNET-B0",
+  "model_type": "efficientnet",
+  "input_size": 224,
+  "class_to_idx": "{'0_real': 0, '1_fake': 1}",
+  "device": "cuda",
+  "use_amp": "False",
+  "metrics": {
+    "train_loss_epoch": 0.14901283606879137,
+    "lr": 0.0001,
+    "accuracy": 0.968063235282898,
+    "f1": 0.9225576519966125,
+    "mcc": 0.902605414390564,
+    "precision": 0.9090312719345093,
+    "recall": 0.9364926218986511,
+    "validation_loss": 0.08395393394807837,
+    "training_loss": 0.14901283606879137
+  }
+}

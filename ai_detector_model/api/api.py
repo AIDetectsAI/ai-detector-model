@@ -1,36 +1,43 @@
 import asyncio
 import io
+from typing import cast
 
 from fastapi import FastAPI, File, Form, UploadFile
 from PIL import Image
 from pydantic import BaseModel
 
-from ai_detector_model.data.image_preprocessor import preprocess_image
-from ai_detector_model.model_converter import ModelController
+from ai_detector_model.api.inference_controller import InferenceController
+from ai_detector_model.api.model_factory import get_pytorch_model_dir
+from ai_detector_model.api.model_schema import ACTIVE_MODEL_NAME
 
 app = FastAPI()
 
-
-class APIController:
-    def __init__(self):
-        self.model_controller = ModelController("models/onnx/baseline_model.onnx")
-
-    async def get_image_certainty(self, file: UploadFile, type: str) -> float:
-        contents = await file.read()
-        image = Image.open(io.BytesIO(contents)).convert("RGB")
-        preprocessed_image = preprocess_image(image)
-        result = await asyncio.to_thread(self.model_controller.run_onnx_model, preprocessed_image)
-        return result
+inference_engine = None
 
 
-model_handler = APIController()
+def get_inference_engine() -> InferenceController:
+    global inference_engine
+    if inference_engine is None:
+        inference_engine = InferenceController(get_pytorch_model_dir(ACTIVE_MODEL_NAME))
+    return cast(InferenceController, inference_engine)
 
 
 class CertaintyDTO(BaseModel):
     certainty: float
+    # model_used: str
+    # class_to_idx: dict[str, int]
 
 
-@app.post("/verify/image")
+@app.post("/verify/image", response_model=CertaintyDTO)
 async def verify_image(file: UploadFile = File(...), type: str = Form(...)):
-    certainty = await model_handler.get_image_certainty(file, type)
-    return CertaintyDTO(certainty=certainty)
+    contents = await file.read()
+    image = Image.open(io.BytesIO(contents)).convert("RGB")
+
+    engine = get_inference_engine()
+    result = await asyncio.to_thread(engine.predict, image)
+
+    return CertaintyDTO(
+        certainty=result,
+        # model_used=inference_engine.metadata.model_name,
+        # class_to_idx=inference_engine.class_to_idx,
+    )

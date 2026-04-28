@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 import os.path
 from typing import Any
 
@@ -11,7 +12,7 @@ import torch.nn as nn
 from torch.optim import Optimizer
 from torch.utils.data import DataLoader
 import torchmetrics
-from torchmetrics import Accuracy, F1Score, Precision, Recall
+from torchmetrics import Accuracy, F1Score, MatthewsCorrCoef, Precision, Recall
 
 
 class Trainer:
@@ -38,6 +39,7 @@ class Trainer:
         self.use_amp = use_amp
         self.metric_name = metric_name
         self.metric_mode = metric_mode
+        self.autocast_dtype = self._resolve_autocast_dtype()
 
         self.metrics = torchmetrics.MetricCollection(
             {
@@ -47,8 +49,16 @@ class Trainer:
                     task="binary",
                 ),
                 "f1": F1Score(task="binary"),
+                "mcc": MatthewsCorrCoef(task="binary"),
             }
         ).to(device=self.device)
+
+    def _resolve_autocast_dtype(self):
+        if self.device != "cuda":
+            return None
+        if torch.cuda.is_bf16_supported():
+            return torch.bfloat16
+        return torch.float16
 
     def train_one_epoch(self, idx: int) -> floating[Any]:
         self.model.train()
@@ -62,9 +72,13 @@ class Trainer:
             images = images.to(self.device, non_blocking=True)
             labels = labels.to(self.device, non_blocking=True)
 
-            with torch.autocast(
-                device_type=self.device, dtype=torch.bfloat16, enabled=self.use_amp
-            ):
+            use_autocast = self.use_amp and self.autocast_dtype is not None
+            autocast_ctx = (
+                torch.autocast(device_type=self.device, dtype=self.autocast_dtype)
+                if use_autocast
+                else nullcontext()
+            )
+            with autocast_ctx:
                 pred = self.model(images).squeeze(-1)
                 loss = self.loss_fn(pred, labels.float())
 
@@ -97,9 +111,13 @@ class Trainer:
                 images = images.to(self.device, non_blocking=True)
                 labels = labels.to(self.device, non_blocking=True)
 
-                with torch.autocast(
-                    device_type=self.device, dtype=torch.bfloat16, enabled=self.use_amp
-                ):
+                use_autocast = self.use_amp and self.autocast_dtype is not None
+                autocast_ctx = (
+                    torch.autocast(device_type=self.device, dtype=self.autocast_dtype)
+                    if use_autocast
+                    else nullcontext()
+                )
+                with autocast_ctx:
                     pred = self.model(images).squeeze(-1)
                     loss = self.loss_fn(pred, labels.float())
 
@@ -149,8 +167,6 @@ class Trainer:
                 torch.save(self.model.state_dict(), model_path)
 
         self.model.load_state_dict(torch.load(model_path, weights_only=True))
-        mlflow.pytorch.log_model(
-            self.model, artifact_path="model_best", registered_model_name="BEST_MODEL_NAME"
-        )
+        mlflow.pytorch.log_model(self.model, artifact_path="model_best")
         logger.info("TRAINING FINISHED")
         logger.info(f"Best {self.metric_name} achieved: {best_metric} in epoch {best_epoch}")

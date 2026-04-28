@@ -42,6 +42,68 @@ Run pre-commit configuration:
 make precommit
 ```
 
+### 🚀 API
+
+The API uses a locally stored model from the `models` directory.
+
+- The PyTorch model should be stored in `models/pytorch/<MODEL_NAME>/model.pth`
+- If the ONNX model is missing, it will be created automatically in `models/onnx/<MODEL_NAME>/model.onnx`
+- Set the model directory name in `.env` using `ACTIVE_MODEL_DIR`, for example: `ACTIVE_MODEL_DIR=latent-stable-model`
+
+To start the API:
+
+```bash
+make server
+```
+
+### 🗂️ Model Storage
+
+Models in this project are stored in two parallel locations:
+
+- `models/pytorch/<MODEL_NAME>/`
+- `models/onnx/<MODEL_NAME>/`
+
+The `<MODEL_NAME>` part is the model directory name from `ACTIVE_MODEL_DIR`, for example `latent-stable-model_v1`.
+
+#### PyTorch models
+
+The PyTorch version of a model should be stored in:
+
+```text
+models/pytorch/<MODEL_NAME>/model.pth
+```
+
+This directory should also contain the MLflow export metadata:
+
+```text
+models/pytorch/<MODEL_NAME>/metadata.json
+```
+
+The metadata file is used to recover the most important information about the model, such as:
+
+- model architecture name
+- model type
+- input size
+- class mapping
+- MLflow run ID
+- model version
+
+#### ONNX models
+
+The ONNX export should be stored in:
+
+```text
+models/onnx/<MODEL_NAME>/model.onnx
+```
+
+This directory should also contain the same metadata file copied from the PyTorch export:
+
+```text
+models/onnx/<MODEL_NAME>/metadata.json
+```
+
+If the ONNX file is missing, the API will convert the PyTorch model from `models/pytorch/<MODEL_NAME>/` and create the matching ONNX directory automatically.
+
 ### 🗄️ Local documentation
 
 You can build and serve the project documentation locally using:
@@ -67,6 +129,12 @@ Other useful commands include:
 ## 📃 Scripts
 
 Repository provides scripts to speed up experimenting and model developing process. Every script is avaliable in `ai_detector_model` subfolder. Detailed description of each script is provided in project documentation [here](https://aidetectsai.github.io/ai-detector-model/experiments/configs/).
+
+### Dataset preparation and evaluation
+
+- `ai_detector_model/utils/build_dataset.py` prepares the processed training dataset from the ArtiFact source tree. It copies real and fake images into the `data/processed/train` and `data/processed/test` folders using the metadata files, and creates a train/test split for fake samples.
+- `ai_detector_model/utils/build_final_test_set.py` builds a balanced final test set from the ArtiFact dataset. It selects real and fake sources, removes exact duplicates by file hash, avoids overlap with the existing processed dataset, and writes a manifest plus a JSON report.
+- `ai_detector_model/utils/evaluate_final_test.py` evaluates a saved PyTorch checkpoint on the final test set. It loads model metadata, applies the project preprocessing pipeline, computes classification metrics, and can optionally save the report as JSON.
 
 ## 🗃️ Documentation
 

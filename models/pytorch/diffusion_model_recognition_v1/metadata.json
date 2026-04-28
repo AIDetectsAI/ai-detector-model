@@ -1,0 +1,26 @@
+{
+  "registered_model_name": "diffusion_model_recognition",
+  "model_version": "1",
+  "model_uri": "models:/diffusion_model_recognition/1",
+  "run_id": "dde84c973a0a4c08bf48973365625175",
+  "source": "models:/m-d946c7589438429498a002c177d17d2c",
+  "status": "READY",
+  "run_name": "capable-auk-759",
+  "model_name": "EFFICIENTNET-B1",
+  "model_type": "efficientnet",
+  "input_size": 240,
+  "class_to_idx": "{'0_real': 0, '1_fake': 1}",
+  "device": "cuda",
+  "use_amp": "True",
+  "metrics": {
+    "train_loss_epoch": 0.06748481941633507,
+    "lr": 0.0001,
+    "accuracy": 0.9537693858146667,
+    "f1": 0.9519846439361572,
+    "mcc": 0.9075583815574646,
+    "precision": 0.9433844685554504,
+    "recall": 0.9607430100440979,
+    "validation_loss": 0.13498950900656562,
+    "training_loss": 0.06748481941633507
+  }
+}

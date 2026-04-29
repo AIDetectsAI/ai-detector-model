@@ -3,7 +3,7 @@ import re
 
 import torch
 import torch.nn as nn
-from torchvision.models import efficientnet_b0
+from torchvision.models import efficientnet_b0, efficientnet_b1
 
 from ai_detector_model.api.model_schema import ModelMetadata
 
@@ -13,6 +13,10 @@ class ModelFactory:
     def get_pytorch_model(model_name: str, num_classes: int):
         if model_name == "EFFICIENTNET-B0":
             model = efficientnet_b0(weights=None)
+            model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes - 1)
+            return model
+        elif model_name == "EFFICIENTNET-B1":
+            model = efficientnet_b1(weights=None)
             model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes - 1)
             return model
         else:

@@ -2,7 +2,7 @@ import asyncio
 import io
 from typing import cast
 
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from PIL import Image
 from pydantic import BaseModel
 
@@ -31,7 +31,10 @@ class CertaintyDTO(BaseModel):
 @app.post("/verify/image", response_model=CertaintyDTO)
 async def verify_image(file: UploadFile = File(...), type: str = Form(...)):
     contents = await file.read()
-    image = Image.open(io.BytesIO(contents)).convert("RGB")
+    try:
+        image = Image.open(io.BytesIO(contents)).convert("RGB")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Provided file was not an image") from None
 
     engine = get_inference_engine()
     result = await asyncio.to_thread(engine.predict, image)

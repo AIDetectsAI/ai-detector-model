@@ -23,10 +23,16 @@ class _StubInferenceController:
         return 0.995
 
 
+class _StubCaptionController:
+    def generate_caption(self, _image):
+        return "test caption"
+
+
 def test_verify_image(monkeypatch):
     from ai_detector_model.api import api
 
     monkeypatch.setattr(api, "get_inference_engine", lambda: _StubInferenceController())
+    monkeypatch.setattr(api, "get_caption_engine", lambda: _StubCaptionController())
     client = TestClient(api.app)
 
     img = Image.new("RGB", (64, 64), color=(255, 0, 0))
@@ -38,13 +44,14 @@ def test_verify_image(monkeypatch):
     response = client.post("/verify/image", files=files, data={"type": "image"})
 
     assert response.status_code == 200
-    assert response.json() == {"certainty": 0.995}
+    assert response.json() == {"certainty": 0.995, "caption": "test caption"}
 
 
 def test_endpoint_logic(monkeypatch):
     from ai_detector_model.api import api
 
     monkeypatch.setattr(api, "get_inference_engine", lambda: _StubInferenceController())
+    monkeypatch.setattr(api, "get_caption_engine", lambda: _StubCaptionController())
     client = TestClient(api.app)
 
     img = Image.new("RGB", (64, 64), color=(255, 0, 0))
@@ -60,3 +67,6 @@ def test_endpoint_logic(monkeypatch):
     assert "certainty" in json_data
     assert isinstance(json_data["certainty"], (float, int))
     assert 0 <= json_data["certainty"] <= 1
+
+    assert "caption" in json_data
+    assert isinstance(json_data["caption"], str)
